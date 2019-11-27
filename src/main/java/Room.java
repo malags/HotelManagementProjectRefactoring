@@ -3,12 +3,12 @@ import java.util.ArrayList;
 public abstract class Room {
 
     int roomNumber;
-    private ArrayList<Food> food = new ArrayList<>();
+    private ArrayList<Food> foods = new ArrayList<>();
     Client[] clients;
 
 
-    public ArrayList<Food> getFood() {
-        return food;
+    public ArrayList<Food> getFoods() {
+        return foods;
     }
 
     public int getRoomNumber() {
@@ -16,4 +16,6 @@ public abstract class Room {
     }
 
     abstract boolean isEmpty();
+
+
 }

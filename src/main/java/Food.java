@@ -2,9 +2,9 @@ import java.io.Serializable;
 
 //
 class Food implements Serializable {
-    int itemno;
-    int quantity;
-    float price;
+    private final int itemno;
+    private final int quantity;
+    private float price;
 
     Food(int itemno, int quantity) {
         this.itemno = itemno;
@@ -23,5 +23,17 @@ class Food implements Serializable {
                 price = quantity * 30;
                 break;
         }
+    }
+
+    public int getItemno() {
+        return itemno;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public float getPrice() {
+        return price;
     }
 }
