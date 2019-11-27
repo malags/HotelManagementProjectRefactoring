@@ -1,9 +1,16 @@
-public class SingleRoom {
+public class SingleRoom extends Room {
 
+    public SingleRoom(Client client1) {
+        this.clients = new Client[1];
+        this.clients[0] = client1;
+    }
 
-    private Client c;
+    public Client getClient1() {
+        return this.clients[0];
+    }
 
-    public SingleRoom(Client c) {
-        this.c = c;
+    @Override
+    boolean isEmpty() {
+        return getClient1() == null;
     }
 }
