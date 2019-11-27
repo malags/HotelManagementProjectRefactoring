@@ -1,6 +1,6 @@
 public class Client {
 
-    private String name = "";
+    private String name;
     private String contact;
     private String gender;
 

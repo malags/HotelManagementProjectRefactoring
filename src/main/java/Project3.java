@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 //
 class Food implements Serializable {
     int itemno;
@@ -50,25 +51,25 @@ class Singleroom implements Serializable {
     }
 }
 
-class Doubleroom extends Singleroom implements Serializable {
-    String name2;
-    String contact2;
-    String gender2;
-
-    Doubleroom() {
-        this.name = "";
-        this.name2 = "";
-    }
-
-    Doubleroom(String name, String contact, String gender, String name2, String contact2, String gender2) {
-        this.name = name;
-        this.contact = contact;
-        this.gender = gender;
-        this.name2 = name2;
-        this.contact2 = contact2;
-        this.gender2 = gender2;
-    }
-}
+//class Doubleroom extends Singleroom implements Serializable {
+//    String name2;
+//    String contact2;
+//    String gender2;
+//
+//    Doubleroom() {
+//        this.name = "";
+//        this.name2 = "";
+//    }
+//
+//    Doubleroom(String name, String contact, String gender, String name2, String contact2, String gender2) {
+//        this.name = name;
+//        this.contact = contact;
+//        this.gender = gender;
+//        this.name2 = name2;
+//        this.contact2 = contact2;
+//        this.gender2 = gender2;
+//    }
+//}
 
 class NotAvailable extends Exception {
     @Override
@@ -78,8 +79,8 @@ class NotAvailable extends Exception {
 }
 
 class holder implements Serializable {
-    Doubleroom arr1[] = new Doubleroom[10]; //Luxury
-    Doubleroom arr2[] = new Doubleroom[20]; //Deluxe
+    DoubleRoom arr1[] = new DoubleRoom[10]; //Luxury
+    DoubleRoom arr2[] = new DoubleRoom[20]; //Deluxe
     Singleroom arr3[] = new Singleroom[10]; //Luxury
     Singleroom arr4[] = new Singleroom[20]; //Deluxe
 }
@@ -109,10 +110,10 @@ class Hotel {
 
         switch (i) {
             case 1:
-                ob.arr1[rn] = new Doubleroom(name, contact, gender, name2, contact2, gender2);
+                ob.arr1[rn] = new DoubleRoom(new Client(name, contact, gender), new Client(name2, contact2, gender2));
                 break;
             case 2:
-                ob.arr2[rn] = new Doubleroom(name, contact, gender, name2, contact2, gender2);
+                ob.arr2[rn] = new DoubleRoom(new Client(name, contact, gender), new Client(name2, contact2, gender2));
                 break;
             case 3:
                 ob.arr3[rn] = new Singleroom(name, contact, gender);
@@ -280,7 +281,7 @@ class Hotel {
                 System.out.println("===============");
                 System.out.println("Item   Quantity    Price");
                 System.out.println("-------------------------");
-                for (Food obb : ob.arr1[rn].food) {
+                for (Food obb : ob.arr1[rn].getFood()) {
                     amount += obb.price;
                     String format = "%-10s%-10s%-10s%n";
                     System.out.printf(format, list[obb.itemno - 1], obb.quantity, obb.price);
@@ -294,7 +295,7 @@ class Hotel {
                 System.out.println("===============");
                 System.out.println("Item   Quantity    Price");
                 System.out.println("-------------------------");
-                for (Food obb : ob.arr2[rn].food) {
+                for (Food obb : ob.arr2[rn].getFood()) {
                     amount += obb.price;
                     String format = "%-10s%-10s%-10s%n";
                     System.out.printf(format, list[obb.itemno - 1], obb.quantity, obb.price);
@@ -338,7 +339,8 @@ class Hotel {
         switch (rtype) {
             case 1:
                 if (ob.arr1[rn] != null)
-                    System.out.println("Room used by " + ob.arr1[rn].name);
+                    //System.out.println("Room used by " + ob.arr1[rn].name);
+                    System.out.println();
                 else {
                     System.out.println("Empty Already");
                     return;
@@ -354,7 +356,8 @@ class Hotel {
                 break;
             case 2:
                 if (ob.arr2[rn] != null)
-                    System.out.println("Room used by " + ob.arr2[rn].name);
+                    //System.out.println("Room used by " + ob.arr2[rn].name);
+                    System.out.println();
                 else {
                     System.out.println("Empty Already");
                     return;
@@ -417,10 +420,10 @@ class Hotel {
 
                 switch (rtype) {
                     case 1:
-                        ob.arr1[rn].food.add(new Food(i, q));
+                        ob.arr1[rn].getFood().add(new Food(i, q));
                         break;
                     case 2:
-                        ob.arr2[rn].food.add(new Food(i, q));
+                        ob.arr2[rn].getFood().add(new Food(i, q));
                         break;
                     case 3:
                         ob.arr3[rn].food.add(new Food(i, q));
