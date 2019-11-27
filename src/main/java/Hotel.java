@@ -197,15 +197,15 @@ class Hotel {
         if (rooms[roomNumber].isEmpty())
             System.out.println("Room used by " + arr1[roomNumber].getClient2().getName());
         else {
-            System.out.println("Empty Already");
+            System.out.println("Empty Already!");
             return;
         }
-        System.out.println("Do you want to checkout ?(y/n)");
+        System.out.println("Do you want to checkout?(y/n)");
         char w = sc.next().toLowerCase().charAt(0);
         if (w == 'y') {
             bill(roomNumber, roomType);
             arr1[roomNumber] = null;
-            System.out.println("Deallocated succesfully");
+            System.out.println("Deallocated succesfully!");
         }
     }
 
@@ -229,7 +229,7 @@ class Hotel {
         }
     }
 
-    static void order(int rn, int rtype) {
+    static void order(int roomNumber, int roomType) {
         int i, q;
         char wish;
         try {
@@ -239,18 +239,18 @@ class Hotel {
                 System.out.print("Quantity- ");
                 q = sc.nextInt();
 
-                switch (rtype) {
+                switch (roomType) {
                     case 1:
-                        arr1[rn].getFoods().add(new Food(i, q));
+                        arr1[roomNumber].getFoods().add(new Food(i, q));
                         break;
                     case 2:
-                        arr2[rn].getFoods().add(new Food(i, q));
+                        arr2[roomNumber].getFoods().add(new Food(i, q));
                         break;
                     case 3:
-                        arr3[rn].getFoods().add(new Food(i, q));
+                        arr3[roomNumber].getFoods().add(new Food(i, q));
                         break;
                     case 4:
-                        arr4[rn].getFoods().add(new Food(i, q));
+                        arr4[roomNumber].getFoods().add(new Food(i, q));
                         break;
                 }
                 System.out.println("Do you want to order anything else ? (y/n)");
