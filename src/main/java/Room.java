@@ -16,6 +16,4 @@ public abstract class Room {
     }
 
     abstract boolean isEmpty();
-
-
 }

@@ -87,7 +87,7 @@ public class Project3 {
             Thread t = new Thread(new Write());
             t.start();
         } catch (Exception e) {
-            System.out.println("Not a valid input");
+            System.out.println("Not a valid input!");
         }
     }
 }

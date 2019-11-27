@@ -11,16 +11,16 @@ class Hotel {
 
     private static Client createClient(String customerPosition) {
         String name, contact, gender;
-        System.out.print("\nEnter " + customerPosition + "customer name:");
+        System.out.println("\nEnter " + customerPosition + "customer name:");
         name = sc.next();
-        System.out.print("Enter contact number: ");
+        System.out.println("Enter contact number:");
         contact = sc.next();
-        System.out.print("Enter gender: ");
+        System.out.println("Enter gender:");
         gender = sc.next();
         return new Client(name, contact, gender);
     }
 
-    private static void CustDetails(int i, int rn) {
+    private static void CustDetails(int i, int roomNumber) {
 
         Client client1 = createClient("first");
         Client client2 = null;
@@ -33,16 +33,16 @@ class Hotel {
         //TODO: remove switch
         switch (i) {
             case 1:
-                arr1[rn] = new DoubleRoom(client1, client2);
+                arr1[roomNumber] = new DoubleRoom(client1, client2);
                 break;
             case 2:
-                arr2[rn] = new DoubleRoom(client1, client2);
+                arr2[roomNumber] = new DoubleRoom(client1, client2);
                 break;
             case 3:
-                arr3[rn] = new SingleRoom(client1);
+                arr3[roomNumber] = new SingleRoom(client1);
                 break;
             case 4:
-                arr4[rn] = new SingleRoom(client1);
+                arr4[roomNumber] = new SingleRoom(client1);
                 break;
             default:
                 System.out.println("Wrong option!");
