@@ -33,16 +33,16 @@ class Hotel {
         //TODO: remove switch
         switch (i) {
             case 1:
-                arr1[roomNumber] = new DoubleRoom(client1, client2);
+                arr1[roomNumber] = new DoubleRoom(client1, client2, true);
                 break;
             case 2:
-                arr2[roomNumber] = new DoubleRoom(client1, client2);
+                arr2[roomNumber] = new DoubleRoom(client1, client2, false);
                 break;
             case 3:
-                arr3[roomNumber] = new SingleRoom(client1);
+                arr3[roomNumber] = new SingleRoom(client1, true);
                 break;
             case 4:
-                arr4[roomNumber] = new SingleRoom(client1);
+                arr4[roomNumber] = new SingleRoom(client1, false);
                 break;
             default:
                 System.out.println("Wrong option!");
