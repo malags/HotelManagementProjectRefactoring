@@ -1,6 +1,7 @@
 public class SingleRoom extends Room {
 
-    public SingleRoom(Client client1) {
+    public SingleRoom(Client client1,boolean isLuxury) {
+        super(isLuxury);
         this.clients = new Client[1];
         this.clients[0] = client1;
     }
