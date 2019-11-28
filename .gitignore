@@ -7,7 +7,6 @@
 .idea/misc.xml
 .idea/vcs.xml
 src/main/resources/
-src/test/
 .DS_Store
 backup
 .idea/
