@@ -7,8 +7,10 @@ public abstract class Room {
     Client[] clients;
     private boolean isLuxury;
 
-    public Room(boolean isLuxury) {
+    public Room(boolean isLuxury,int roomNumber) {
+
         this.isLuxury = isLuxury;
+        this.roomNumber = roomNumber;
     }
 
     public ArrayList<Food> getFoods() {
@@ -20,4 +22,18 @@ public abstract class Room {
     }
 
     abstract boolean isEmpty();
+
+    boolean isLuxury(){
+        return isLuxury;
+    }
+
+    abstract void setEmpty();
+
+    public abstract int countAvailable(boolean doubleRoom, boolean luxury);
+
+    public Client[] getClients(){
+        return clients;
+    }
+
+    abstract  public void book(Client... clients);
 }

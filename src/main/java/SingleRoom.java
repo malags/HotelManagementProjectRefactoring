@@ -1,17 +1,33 @@
-public class SingleRoom extends Room {
+import java.io.Serializable;
 
-    public SingleRoom(Client client1,boolean isLuxury) {
-        super(isLuxury);
+public class SingleRoom extends Room implements Serializable {
+
+    public SingleRoom(Client client1, int roomNumber, boolean isLuxury) {
+        super(isLuxury, roomNumber);
         this.clients = new Client[1];
         this.clients[0] = client1;
     }
 
-    public Client getClient1() {
-        return this.clients[0];
+    @Override
+    boolean isEmpty() {
+        return clients[0] == null;
     }
 
     @Override
-    boolean isEmpty() {
-        return getClient1() == null;
+    void setEmpty() {
+        clients = new Client[1];
     }
+
+    @Override
+    public int countAvailable(boolean doubleRoom, boolean luxury) {
+        return (!doubleRoom) && (luxury == isLuxury()) && isEmpty() ? 1 : 0;
+    }
+
+    @Override
+    public void book(Client... clients) {
+        assert (clients.length == 1);
+        this.clients[0] = clients[0];
+    }
+
+
 }

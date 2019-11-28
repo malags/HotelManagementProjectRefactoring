@@ -1,13 +1,37 @@
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
-class Hotel {
+class Hotel{
 
-    static DoubleRoom[] arr1 = new DoubleRoom[10]; //Luxury
-    static DoubleRoom[] arr2 = new DoubleRoom[20]; //Deluxe
-    static SingleRoom[] arr3 = new SingleRoom[10]; //Luxury
-    static SingleRoom[] arr4 = new SingleRoom[20]; //Deluxe
+    final Room[] rooms;
 
-    private static Scanner sc = new Scanner(System.in);
+    final private static Scanner sc = new Scanner(System.in);
+
+    public enum RoomType {DoubleLuxury,DoubleNotLuxury, SingleLuxury, SingleNotLuxury};
+    public static RoomType intToRoomType(int roomType){
+        return RoomType.values()[roomType-1];
+    }
+
+    public Hotel(Room[] rooms) {
+        this.rooms = rooms;
+    }
+
+    public Hotel() {
+        //can factor out some more
+        List<Room> r = new ArrayList<>();
+        for(int i = 0; i < 10 ; ++i){
+            r.add(new DoubleRoom(null,null,i+1,true));
+            r.add(new SingleRoom(null,i+11,true));
+        }
+        for(int i = 20 ; i < 40 ; ++i ){
+            r.add(new DoubleRoom(null,null,i+1,false));
+            r.add(new SingleRoom(null,i+21,false));
+        }
+        r.sort(Comparator.comparingInt(Room::getRoomNumber));
+        this.rooms = r.toArray(new Room[60]);
+    }
 
     private static Client createClient(String customerPosition) {
         String name, contact, gender;
@@ -20,87 +44,77 @@ class Hotel {
         return new Client(name, contact, gender);
     }
 
-    private static void CustDetails(int i, int roomNumber) {
+    public boolean roomIsAvailable(int roomNumber){
+        return rooms[roomNumber-1].isEmpty();
+    }
 
-        Client client1 = createClient("first");
+
+    public Client[] StdInClientsForRoom(int roomNumber) {
+
+        Client client1 = createClient("first ");
         Client client2 = null;
+        Room room = rooms[roomNumber -1];
 
         //if doubleroom
-        if (i < 3) {
-            client2 = createClient("second");
+        if (room instanceof DoubleRoom) {
+            client2 = createClient("second ");
+            return new Client[]{client1,client2};
+            //room.book(client1,client2);
         }
 
-        //TODO: remove switch
-        switch (i) {
-            case 1:
-                arr1[roomNumber] = new DoubleRoom(client1, client2, true);
-                break;
-            case 2:
-                arr2[roomNumber] = new DoubleRoom(client1, client2, false);
-                break;
-            case 3:
-                arr3[roomNumber] = new SingleRoom(client1, true);
-                break;
-            case 4:
-                arr4[roomNumber] = new SingleRoom(client1, false);
-                break;
-            default:
-                System.out.println("Wrong option!");
-                break;
-        }
+        return new Client[]{client1};
+        //room.book(client1);
     }
 
-    private static void printRoomNumber(Room[] rooms, int roomType) {
-        System.out.println("\nChoose room number from: ");
+    public List<Room> availableRooms(boolean doubleRoom, boolean luxury){
+        List<Room> availableRooms = new ArrayList<>();
         for (Room room : rooms)
-            if (room.isEmpty())
-                System.out.print(room.getRoomNumber() + 1 + ",");
-
-        System.out.print("\nEnter room number: ");
-        try {
-            int roomNumber = sc.nextInt();
-            roomNumber--;
-            if (rooms[roomNumber] != null)
-                throw new NotAvailable(roomNumber);
-            CustDetails(roomType, roomNumber);
-        } catch (Exception e) {
-            System.out.println("Invalid Option");
-        }
+            if (room.isEmpty() && (room.isLuxury() == luxury) && (room instanceof DoubleRoom == doubleRoom)){
+                availableRooms.add(room);
+            }
+        return availableRooms;
     }
 
-    static void bookroom(int roomType) {
-        switch (roomType) {
-            case 1:
-                printRoomNumber(arr1, roomType);
-                break;
-            case 2:
-                printRoomNumber(arr2, roomType);
-                break;
-            case 3:
-                printRoomNumber(arr3, roomType);
-                break;
-            case 4:
-                printRoomNumber(arr4, roomType);
-                break;
-            default:
-                System.out.println("Enter valid option");
-                break;
+    public void printAvailableRoomNumber(RoomType roomType) {
+        System.out.println("\nChoose room number from: ");
+
+        boolean doubleRoom = roomType == RoomType.DoubleNotLuxury || roomType == RoomType.DoubleLuxury;
+        boolean luxury = roomType == RoomType.SingleNotLuxury || roomType == RoomType.SingleLuxury;
+        for(Room room : availableRooms(doubleRoom,luxury))
+            System.out.print(room.getRoomNumber() + ",");
+
+    }
+
+    //TODO: possibly use this instead
+    public void bookRoom(int roomNumber, Client[] clients){
+        Room room = rooms[roomNumber-1];
+        if (room.clients.length < clients.length){
+            System.out.println("Room " + roomNumber + " can't fit that many people");
+            return;
+        }
+        if (!room.isEmpty()) {
+            System.out.println("Room " + roomNumber + " isn't available");
+            return;
         }
         System.out.println("Room Booked");
+        rooms[roomNumber-1].book(clients);
     }
 
+
     static void features(int i) {
-        switch (i) {
-            case 1:
+        //TODO: refactor
+        RoomType roomType = intToRoomType(i);
+        switch (roomType) {
+            case DoubleLuxury:
                 System.out.println("Number of double beds : 1\nAC : Yes\nFree breakfast : Yes\nCharge per day:4000 ");
                 break;
-            case 2:
+            case DoubleNotLuxury:
                 System.out.println("Number of double beds : 1\nAC : No\nFree breakfast : Yes\nCharge per day:3000  ");
                 break;
-            case 3:
+            case SingleLuxury:
                 System.out.println("Number of single beds : 1\nAC : Yes\nFree breakfast : Yes\nCharge per day:2200  ");
                 break;
-            case 4:
+            case SingleNotLuxury:
                 System.out.println("Number of single beds : 1\nAC : No\nFree breakfast : Yes\nCharge per day:1200 ");
                 break;
             default:
@@ -109,35 +123,16 @@ class Hotel {
         }
     }
 
-    private static int roomAvailability(Room[] rooms) {
+
+
+    int availability(RoomType roomType) {
+        boolean doubleRoom = roomType == RoomType.DoubleLuxury || roomType == RoomType.DoubleNotLuxury;
+        boolean luxury = roomType == RoomType.SingleLuxury || roomType == RoomType.DoubleLuxury;
         int count = 0;
-        for (int j = 0; j < 10; j++) {
-            if (rooms[j] == null)
-                count++;
+        for (Room room : rooms){
+            count += room.countAvailable(doubleRoom,luxury);
         }
         return count;
-    }
-
-    static void availability(int i) {
-        int count = 0;
-        switch (i) {
-            case 1:
-                count = roomAvailability(arr1);
-                break;
-            case 2:
-                count = roomAvailability(arr2);
-                break;
-            case 3:
-                count = roomAvailability(arr3);
-                break;
-            case 4:
-                count = roomAvailability(arr4);
-                break;
-            default:
-                System.out.println("Enter valid option");
-                break;
-        }
-        System.out.println("Number of rooms available : " + count);
     }
 
     private static void billPrinting(double value) {
@@ -159,7 +154,9 @@ class Hotel {
         return amount;
     }
 
-    private static void bill(int roomNumber, int roomType) {
+    private void bill(int roomNumber, int roomType2) {
+        //TODO: refactor
+        RoomType roomType = Hotel.intToRoomType(roomType2);
         double amount = 0;
         String[] list = {"Sandwich", "Pasta", "Noodles", "Coke"};
         System.out.println("\n*******");
@@ -167,25 +164,25 @@ class Hotel {
         System.out.println("*******");
 
         switch (roomType) {
-            case 1:
+            case DoubleLuxury:
                 amount += 4000;
                 billPrinting(4000);
-                amount += calculateBill(amount, arr1[roomNumber], list);
+                amount += calculateBill(amount, rooms[roomNumber-1], list);
                 break;
-            case 2:
+            case DoubleNotLuxury:
                 amount += 3000;
                 billPrinting(3000);
-                amount += calculateBill(amount, arr2[roomNumber], list);
+                amount += calculateBill(amount, rooms[roomNumber-1], list);
                 break;
-            case 3:
+            case SingleLuxury:
                 amount += 2200;
                 billPrinting(2200);
-                amount += calculateBill(amount, arr3[roomNumber], list);
+                amount += calculateBill(amount, rooms[roomNumber-1], list);
                 break;
-            case 4:
+            case SingleNotLuxury:
                 amount += 1200;
                 billPrinting(1200);
-                amount += calculateBill(amount, arr4[roomNumber], list);
+                amount += calculateBill(amount, rooms[roomNumber-1], list);
                 break;
             default:
                 System.out.println("Not valid");
@@ -193,43 +190,11 @@ class Hotel {
         System.out.println("\nTotal Amount- " + amount);
     }
 
-    private static void deallocationRoom(int roomNumber, int roomType, Room[] rooms) {
-        if (rooms[roomNumber].isEmpty())
-            System.out.println("Room used by " + arr1[roomNumber].getClient2().getName());
-        else {
-            System.out.println("Empty Already!");
-            return;
-        }
-        System.out.println("Do you want to checkout?(y/n)");
-        char w = sc.next().toLowerCase().charAt(0);
-        if (w == 'y') {
-            bill(roomNumber, roomType);
-            arr1[roomNumber] = null;
-            System.out.println("Deallocated succesfully!");
-        }
+    void deallocate(int roomNumber) {
+        rooms[roomNumber-1].setEmpty();
     }
 
-    static void deallocate(int roomNumber, int roomType) {
-        switch (roomType) {
-            case 1:
-                deallocationRoom(roomNumber, roomType, arr1);
-                break;
-            case 2:
-                deallocationRoom(roomNumber, roomType, arr2);
-                break;
-            case 3:
-                deallocationRoom(roomNumber, roomType, arr3);
-                break;
-            case 4:
-                deallocationRoom(roomNumber, roomType, arr4);
-                break;
-            default:
-                System.out.println("\nEnter valid option!");
-                break;
-        }
-    }
-
-    static void order(int roomNumber, int roomType) {
+    void order(int roomNumber) {
         int i, q;
         char wish;
         try {
@@ -239,26 +204,17 @@ class Hotel {
                 System.out.print("Quantity- ");
                 q = sc.nextInt();
 
-                switch (roomType) {
-                    case 1:
-                        arr1[roomNumber].getFoods().add(new Food(i, q));
-                        break;
-                    case 2:
-                        arr2[roomNumber].getFoods().add(new Food(i, q));
-                        break;
-                    case 3:
-                        arr3[roomNumber].getFoods().add(new Food(i, q));
-                        break;
-                    case 4:
-                        arr4[roomNumber].getFoods().add(new Food(i, q));
-                        break;
+                if(rooms[roomNumber-1].isEmpty()){
+                    System.out.println("The room is not booked");
+                    return;
                 }
+
+                rooms[roomNumber-1].getFoods().add(new Food(i, q));
+
                 System.out.println("Do you want to order anything else ? (y/n)");
                 wish = sc.next().charAt(0);
             } while (wish == 'y' || wish == 'Y');
-        } catch (NullPointerException e) {
-            System.out.println("\nRoom not booked");
-        } catch (Exception e) {
+        }catch (Exception e) {
             System.out.println("Cannot be done");
         }
     }

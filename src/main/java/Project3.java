@@ -5,70 +5,74 @@ import java.util.Scanner;
 
 public class Project3 {
 
+    static final String chooseRoom = "\nChoose room type :\n1.Luxury Double Room \n2.Deluxe Double Room \n3.Luxury Single Room \n4.Deluxe Single Room\n";
     public static void main(String[] args) {
 
         try {
-            File file = new File("backup");
-            if (file.exists()) {
+            //File file = new File("backup");
+            Hotel hotel;
+            /*if (file.exists()) {
                 FileInputStream fileInputStream = new FileInputStream(file);
                 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-                //Hotel.ob = (holder) ois.readObject(); //TODO: modify
+                hotel = new Hotel ((Room[]) objectInputStream.readObject());
             }
+            else*/
+                hotel = new Hotel();
             Scanner sc = new Scanner(System.in);
-            int ch, ch2;
+            int command,roomSelection;
             char wish;
             x:
             do {
 
                 System.out.println("\nEnter your choice :\n1.Display room details\n2.Display room availability \n3.Book\n4.Order food\n5.Checkout\n6.Exit\n");
-                ch = sc.nextInt();
-                switch (ch) {
+                command = sc.nextInt();
+                switch (command) {
                     case 1:
-                        System.out.println("\nChoose room type :\n1.Luxury Double Room \n2.Deluxe Double Room \n3.Luxury Single Room \n4.Deluxe Single Room\n");
-                        ch2 = sc.nextInt();
-                        Hotel.features(ch2);
+                        System.out.println(chooseRoom);
+                        roomSelection = sc.nextInt();
+                        Hotel.features(roomSelection);
                         break;
                     case 2:
-                        System.out.println("\nChoose room type :\n1.Luxury Double Room \n2.Deluxe Double Room \n3.Luxury Single Room\n4.Deluxe Single Room\n");
-                        ch2 = sc.nextInt();
-                        Hotel.availability(ch2);
+                        System.out.println(chooseRoom);
+                        roomSelection = sc.nextInt();
+                        System.out.print("Number of rooms available : ");
+                        System.out.print(hotel.availability(Hotel.intToRoomType(roomSelection)));
                         break;
                     case 3:
-                        System.out.println("\nChoose room type :\n1.Luxury Double Room \n2.Deluxe Double Room \n3.Luxury Single Room\n4.Deluxe Single Room\n");
-                        ch2 = sc.nextInt();
-                        Hotel.bookroom(ch2);
+                        System.out.println(chooseRoom);
+                        roomSelection = sc.nextInt();
+                        hotel.printAvailableRoomNumber(Hotel.intToRoomType(roomSelection));
+
+                        //TODO: extract, other functionality
+                        System.out.print("\nEnter room number: ");
+                        try {
+                            int roomNumber = sc.nextInt();
+                            if (!hotel.roomIsAvailable(roomNumber))
+                                throw new NotAvailable(roomNumber);
+
+                            Client[] clients = hotel.StdInClientsForRoom(roomNumber);
+                            assert (hotel.roomIsAvailable(roomNumber));
+                            hotel.bookRoom(roomNumber,clients);
+                            System.out.println("Booked room number "+ roomNumber);
+                            assert (!hotel.roomIsAvailable(roomNumber));
+                        } catch (Exception e) {
+                            System.out.println("Invalid Option");
+                        }
                         break;
                     case 4:
                         System.out.print("Room Number -");
-                        ch2 = sc.nextInt();
-                        if (ch2 > 60)
+                        roomSelection = sc.nextInt();
+                        if (roomSelection > 60 || roomSelection < 0)
                             System.out.println("Room doesn't exist");
-                        else if (ch2 > 40)
-                            Hotel.order(ch2 - 41, 4);
-                        else if (ch2 > 30)
-                            Hotel.order(ch2 - 31, 3);
-                        else if (ch2 > 10)
-                            Hotel.order(ch2 - 11, 2);
-                        else if (ch2 > 0)
-                            Hotel.order(ch2 - 1, 1);
                         else
-                            System.out.println("Room doesn't exist");
+                            hotel.order(roomSelection);
                         break;
                     case 5:
-                        System.out.print("Room Number -");
-                        ch2 = sc.nextInt();
-                        if (ch2 > 60)
+                        roomSelection = sc.nextInt();
+                        if (roomSelection > 60 || roomSelection < 0)
                             System.out.println("Room doesn't exist");
-                        else if (ch2 > 40)
-                            Hotel.deallocate(ch2 - 41, 4);
-                        else if (ch2 > 30)
-                            Hotel.deallocate(ch2 - 31, 3);
-                        else if (ch2 > 10)
-                            Hotel.deallocate(ch2 - 11, 2);
-                        else if (ch2 > 0)
-                            Hotel.deallocate(ch2 - 1, 1);
                         else
-                            System.out.println("Room doesn't exist");
+                            hotel.deallocate(roomSelection);
                         break;
                     case 6:
                         break x;
@@ -84,7 +88,7 @@ public class Project3 {
                 }
             } while (wish == 'y');
 
-            Thread t = new Thread(new Write());
+            Thread t = new Thread(new Write(hotel));
             t.start();
         } catch (Exception e) {
             System.out.println("Not a valid input!");
