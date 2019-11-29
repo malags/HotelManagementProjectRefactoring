@@ -2,9 +2,9 @@ import org.junit.Test;
 
 public class DoubleRoomTest {
 
-    final Client client1 = new Client("name","contact","gender");
-    final Client client2 = new Client("name2","contact2","gender2");
-    final int roomNumber = 1;
+    private final Client client1 = new Client("name","contact","gender");
+    private final Client client2 = new Client("name2","contact2","gender2");
+    private final int roomNumber = 1;
 
     @Test
     public void doubleRoomRightSize(){

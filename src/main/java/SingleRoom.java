@@ -28,6 +28,4 @@ public class SingleRoom extends Room implements Serializable {
         assert (clients.length == 1);
         this.clients[0] = clients[0];
     }
-
-
 }

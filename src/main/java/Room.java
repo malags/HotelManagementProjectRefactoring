@@ -8,7 +8,6 @@ public abstract class Room {
     private boolean isLuxury;
 
     public Room(boolean isLuxury,int roomNumber) {
-
         this.isLuxury = isLuxury;
         this.roomNumber = roomNumber;
     }

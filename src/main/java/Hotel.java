@@ -3,15 +3,16 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
-class Hotel{
+class Hotel {
 
     final Room[] rooms;
 
     final private static Scanner sc = new Scanner(System.in);
 
-    public enum RoomType {DoubleLuxury,DoubleNotLuxury, SingleLuxury, SingleNotLuxury};
-    public static RoomType intToRoomType(int roomType){
-        return RoomType.values()[roomType-1];
+    public enum RoomType {DoubleLuxury, DoubleNotLuxury, SingleLuxury, SingleNotLuxury}
+
+    public static RoomType intToRoomType(int roomType) {
+        return RoomType.values()[roomType - 1];
     }
 
     public Hotel(Room[] rooms) {
@@ -20,17 +21,17 @@ class Hotel{
 
     public Hotel() {
         //can factor out some more
-        List<Room> r = new ArrayList<>();
-        for(int i = 0; i < 10 ; ++i){
-            r.add(new DoubleRoom(null,null,i+1,true));
-            r.add(new SingleRoom(null,i+11,true));
+        List<Room> rooms = new ArrayList<>();
+        for (int i = 0; i < 10; ++i) {
+            rooms.add(new DoubleRoom(null, null, i + 1, true));
+            rooms.add(new SingleRoom(null, i + 11, true));
         }
-        for(int i = 20 ; i < 40 ; ++i ){
-            r.add(new DoubleRoom(null,null,i+1,false));
-            r.add(new SingleRoom(null,i+21,false));
+        for (int i = 20; i < 40; ++i) {
+            rooms.add(new DoubleRoom(null, null, i + 1, false));
+            rooms.add(new SingleRoom(null, i + 21, false));
         }
-        r.sort(Comparator.comparingInt(Room::getRoomNumber));
-        this.rooms = r.toArray(new Room[60]);
+        rooms.sort(Comparator.comparingInt(Room::getRoomNumber));
+        this.rooms = rooms.toArray(new Room[60]);
     }
 
     private static Client createClient(String customerPosition) {
@@ -44,8 +45,8 @@ class Hotel{
         return new Client(name, contact, gender);
     }
 
-    public boolean roomIsAvailable(int roomNumber){
-        return rooms[roomNumber-1].isEmpty();
+    public boolean roomIsAvailable(int roomNumber) {
+        return rooms[roomNumber - 1].isEmpty();
     }
 
 
@@ -53,12 +54,12 @@ class Hotel{
 
         Client client1 = createClient("first ");
         Client client2 = null;
-        Room room = rooms[roomNumber -1];
+        Room room = rooms[roomNumber - 1];
 
         //if doubleroom
         if (room instanceof DoubleRoom) {
             client2 = createClient("second ");
-            return new Client[]{client1,client2};
+            return new Client[]{client1, client2};
             //room.book(client1,client2);
         }
 
@@ -66,10 +67,10 @@ class Hotel{
         //room.book(client1);
     }
 
-    public List<Room> availableRooms(boolean doubleRoom, boolean luxury){
+    public List<Room> availableRooms(boolean doubleRoom, boolean luxury) {
         List<Room> availableRooms = new ArrayList<>();
         for (Room room : rooms)
-            if (room.isEmpty() && (room.isLuxury() == luxury) && (room instanceof DoubleRoom == doubleRoom)){
+            if (room.isEmpty() && (room.isLuxury() == luxury) && (room instanceof DoubleRoom == doubleRoom)) {
                 availableRooms.add(room);
             }
         return availableRooms;
@@ -80,15 +81,14 @@ class Hotel{
 
         boolean doubleRoom = roomType == RoomType.DoubleNotLuxury || roomType == RoomType.DoubleLuxury;
         boolean luxury = roomType == RoomType.SingleNotLuxury || roomType == RoomType.SingleLuxury;
-        for(Room room : availableRooms(doubleRoom,luxury))
+        for (Room room : availableRooms(doubleRoom, luxury))
             System.out.print(room.getRoomNumber() + ",");
-
     }
 
     //TODO: possibly use this instead
-    public void bookRoom(int roomNumber, Client[] clients){
-        Room room = rooms[roomNumber-1];
-        if (room.clients.length < clients.length){
+    public void bookRoom(int roomNumber, Client[] clients) {
+        Room room = rooms[roomNumber - 1];
+        if (room.clients.length < clients.length) {
             System.out.println("Room " + roomNumber + " can't fit that many people");
             return;
         }
@@ -97,7 +97,7 @@ class Hotel{
             return;
         }
         System.out.println("Room Booked");
-        rooms[roomNumber-1].book(clients);
+        rooms[roomNumber - 1].book(clients);
     }
 
 
@@ -124,13 +124,12 @@ class Hotel{
     }
 
 
-
     int availability(RoomType roomType) {
         boolean doubleRoom = roomType == RoomType.DoubleLuxury || roomType == RoomType.DoubleNotLuxury;
         boolean luxury = roomType == RoomType.SingleLuxury || roomType == RoomType.DoubleLuxury;
         int count = 0;
-        for (Room room : rooms){
-            count += room.countAvailable(doubleRoom,luxury);
+        for (Room room : rooms) {
+            count += room.countAvailable(doubleRoom, luxury);
         }
         return count;
     }
@@ -167,22 +166,22 @@ class Hotel{
             case DoubleLuxury:
                 amount += 4000;
                 billPrinting(4000);
-                amount += calculateBill(amount, rooms[roomNumber-1], list);
+                amount += calculateBill(amount, rooms[roomNumber - 1], list);
                 break;
             case DoubleNotLuxury:
                 amount += 3000;
                 billPrinting(3000);
-                amount += calculateBill(amount, rooms[roomNumber-1], list);
+                amount += calculateBill(amount, rooms[roomNumber - 1], list);
                 break;
             case SingleLuxury:
                 amount += 2200;
                 billPrinting(2200);
-                amount += calculateBill(amount, rooms[roomNumber-1], list);
+                amount += calculateBill(amount, rooms[roomNumber - 1], list);
                 break;
             case SingleNotLuxury:
                 amount += 1200;
                 billPrinting(1200);
-                amount += calculateBill(amount, rooms[roomNumber-1], list);
+                amount += calculateBill(amount, rooms[roomNumber - 1], list);
                 break;
             default:
                 System.out.println("Not valid");
@@ -191,30 +190,30 @@ class Hotel{
     }
 
     void deallocate(int roomNumber) {
-        rooms[roomNumber-1].setEmpty();
+        rooms[roomNumber - 1].setEmpty();
     }
 
     void order(int roomNumber) {
         int i, q;
         char wish;
         try {
-            System.out.println("\n==========\n   Menu:  \n==========\n\n1.Sandwich\tRs.50\n2.Pasta\t\tRs.60\n3.Noodles\tRs.70\n4.Coke\t\tRs.30\n");
+            System.out.println("\n==========\nMenu:\n==========\n\n1.Sandwich\tRs.50\n2.Pasta\t\tRs.60\n3.Noodles\tRs.70\n4.Coke\t\tRs.30\n");
             do {
                 i = sc.nextInt();
                 System.out.print("Quantity- ");
                 q = sc.nextInt();
 
-                if(rooms[roomNumber-1].isEmpty()){
+                if (rooms[roomNumber - 1].isEmpty()) {
                     System.out.println("The room is not booked");
                     return;
                 }
 
-                rooms[roomNumber-1].getFoods().add(new Food(i, q));
+                rooms[roomNumber - 1].getFoods().add(new Food(i, q));
 
                 System.out.println("Do you want to order anything else ? (y/n)");
                 wish = sc.next().charAt(0);
             } while (wish == 'y' || wish == 'Y');
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Cannot be done");
         }
     }
