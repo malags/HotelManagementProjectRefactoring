@@ -91,4 +91,17 @@ public class SingleRoomTest {
         assert (singleRoom.getClients()[0] == client1);
     }
 
+    @Test
+    public void SingleRoomNotLuxuryCharge(){
+        SingleRoom singleRoom = new SingleRoom(null, roomNumber,false);
+        assert (singleRoom.getCharge() == 1200);
+    }
+
+    @Test
+    public void SingleRoomLuxuryCharge(){
+        SingleRoom singleRoom = new SingleRoom(null, roomNumber,true);
+        assert (singleRoom.getCharge() == 2200);
+    }
+
+
 }

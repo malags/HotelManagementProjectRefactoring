@@ -120,4 +120,16 @@ public class DoubleRoomTest {
         assert (doubleRoom.getClients()[0] == client1);
         assert (doubleRoom.getClients()[1] == client2);
     }
+
+    @Test
+    public void DoubleRoomNotLuxuryCharge(){
+        DoubleRoom doubleRoom = new DoubleRoom(null,null, roomNumber,false);
+        assert (doubleRoom.getCharge() == 3000);
+    }
+
+    @Test
+    public void DoubleRoomLuxuryCharge(){
+        DoubleRoom doubleRoom = new DoubleRoom(null,null, roomNumber,true);
+        assert (doubleRoom.getCharge() == 4000);
+    }
 }

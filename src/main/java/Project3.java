@@ -5,40 +5,40 @@ import java.util.Scanner;
 
 public class Project3 {
 
+    enum com {DisplayRoomDetails, DisplayRoomAvailability, BookRoom, OrderFood, Checkout, Exit};
     private static final String chooseRoom = "\nChoose room type :\n1.Luxury Double Room \n2.Deluxe Double Room \n3.Luxury Single Room \n4.Deluxe Single Room\n";
     public static void main(String[] args) {
 
         try {
-            //File file = new File("backup");
+            File file = new File("backup");
             Hotel hotel;
-            /*if (file.exists()) {
+            if (file.exists()) {
                 FileInputStream fileInputStream = new FileInputStream(file);
                 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
                 hotel = new Hotel ((Room[]) objectInputStream.readObject());
             }
-            else*/
+            else
                 hotel = new Hotel();
             Scanner sc = new Scanner(System.in);
-            int command,roomSelection;
+            int roomSelection;
             char wish;
-            x:
+
             do {
 
                 System.out.println("\nEnter your choice :\n1.Display room details\n2.Display room availability \n3.Book\n4.Order food\n5.Checkout\n6.Exit\n");
-                command = sc.nextInt();
-                switch (command) {
-                    case 1:
+                switch (com.values()[sc.nextInt()-1]) {
+                    case DisplayRoomDetails:
                         System.out.println(chooseRoom);
                         roomSelection = sc.nextInt();
                         Hotel.features(roomSelection);
                         break;
-                    case 2:
+                    case DisplayRoomAvailability:
                         System.out.println(chooseRoom);
                         roomSelection = sc.nextInt();
                         System.out.print("Number of rooms available : ");
                         System.out.print(hotel.availability(Hotel.intToRoomType(roomSelection)));
                         break;
-                    case 3:
+                    case BookRoom:
                         System.out.println(chooseRoom);
                         roomSelection = sc.nextInt();
                         hotel.printAvailableRoomNumber(Hotel.intToRoomType(roomSelection));
@@ -52,6 +52,8 @@ public class Project3 {
 
                             Client[] clients = hotel.StdInClientsForRoom(roomNumber);
                             assert (hotel.roomIsAvailable(roomNumber));
+                            if(!hotel.roomIsAvailable(roomNumber))
+                                System.out.println("The room is already in use");
                             hotel.bookRoom(roomNumber,clients);
                             System.out.println("Booked room number "+ roomNumber);
                             assert (!hotel.roomIsAvailable(roomNumber));
@@ -59,24 +61,26 @@ public class Project3 {
                             System.out.println("Invalid Option");
                         }
                         break;
-                    case 4:
-                        System.out.print("Room Number -");
+                    case OrderFood:
+                        System.out.print("\nEnter room number: ");
+                        int roomNumber = sc.nextInt();
+                        if (roomNumber > 60 || roomNumber < 0)
+                            System.out.println("Room doesn't exist");
+                        else
+                            hotel.order(roomNumber);
+                        break;
+                    case Checkout:
+                        System.out.print("\nEnter room number: ");
                         roomSelection = sc.nextInt();
                         if (roomSelection > 60 || roomSelection < 0)
                             System.out.println("Room doesn't exist");
                         else
-                            hotel.order(roomSelection);
+                            hotel.checkout(roomSelection);
                         break;
-                    case 5:
-                        roomSelection = sc.nextInt();
-                        if (roomSelection > 60 || roomSelection < 0)
-                            System.out.println("Room doesn't exist");
-                        else
-                            hotel.deallocate(roomSelection);
-                        break;
-                    case 6:
-                        break x;
-
+                    case Exit:
+                        Thread t = new Thread(new Write(hotel));
+                        t.start();
+                        return;
                 }
 
                 System.out.println("\nContinue : (y/n)");

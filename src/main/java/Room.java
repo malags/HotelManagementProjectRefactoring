@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Room {
+public abstract class Room implements Serializable {
 
     int roomNumber;
     private ArrayList<Food> foods = new ArrayList<>();
@@ -35,4 +36,6 @@ public abstract class Room {
     }
 
     abstract  public void book(Client... clients);
+
+    public abstract int getCharge();
 }

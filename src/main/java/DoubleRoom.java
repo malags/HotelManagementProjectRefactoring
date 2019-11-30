@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class DoubleRoom extends Room implements Serializable {
+public class DoubleRoom extends Room{
 
     public DoubleRoom(Client client1, Client client2, int roomNumber, boolean isLuxury) {
         super(isLuxury,roomNumber);
@@ -33,5 +33,10 @@ public class DoubleRoom extends Room implements Serializable {
             this.clients[0] = clients[0];
             this.clients[1] = clients[1];
         }
+    }
+
+    @Override
+    public int getCharge() {
+        return isLuxury() ? 4000 : 3000;
     }
 }

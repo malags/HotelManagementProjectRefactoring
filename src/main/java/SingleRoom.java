@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class SingleRoom extends Room implements Serializable {
+public class SingleRoom extends Room{
 
     public SingleRoom(Client client1, int roomNumber, boolean isLuxury) {
         super(isLuxury, roomNumber);
@@ -27,5 +27,10 @@ public class SingleRoom extends Room implements Serializable {
     public void book(Client... clients) {
         assert (clients.length == 1);
         this.clients[0] = clients[0];
+    }
+
+    @Override
+    public int getCharge() {
+        return isLuxury() ? 2200 : 1200;
     }
 }
