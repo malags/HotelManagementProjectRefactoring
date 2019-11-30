@@ -20,10 +20,8 @@ public class Project3 {
                 hotel = new Hotel();
             Scanner sc = new Scanner(System.in);
             int roomSelection;
-            char wish;
 
-            do {
-
+            while (true){
                 Logger.requestMainCommand();
                 switch (command.values()[sc.nextInt() - 1]) {
                     case DisplayRoomDetails:
@@ -81,18 +79,7 @@ public class Project3 {
                         t.start();
                         return;
                 }
-
-                System.out.println("\nContinue : (y/n)");
-                wish = sc.next().toLowerCase().charAt(0);
-                if (!(wish == 'y' || wish == 'n')) {
-                    System.out.println("Invalid Option");
-                    System.out.println("\nContinue : (y/n)");
-                    wish = sc.next().toLowerCase().charAt(0);
-                }
-            } while (wish == 'y');
-
-            Thread t = new Thread(new Write(hotel));
-            t.start();
+            }
         } catch (Exception e) {
             System.out.println("Not a valid input!");
         }

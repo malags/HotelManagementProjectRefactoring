@@ -26,15 +26,15 @@ public class Client implements Serializable {
     }
 
     public static Client createClientFromInput(String customerPosition) {
-        Scanner sc = new Scanner(System.in);
-        String name, contact, gender;
+        Scanner scanner = new Scanner(System.in);
+        String name, contactInfo, gender;
         System.out.println("\nEnter " + customerPosition + "customer name:");
-        name = sc.next();
-        System.out.println("Enter contact number:");
-        contact = sc.next();
+        name = scanner.nextLine();
+        System.out.println("Enter contactInfo number:");
+        contactInfo = scanner.nextLine();
         System.out.println("Enter gender:");
-        gender = sc.next();
-        return new Client(name, contact, gender);
+        gender = scanner.next();
+        return new Client(name, contactInfo, gender);
     }
 
 }
