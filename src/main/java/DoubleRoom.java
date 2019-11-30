@@ -3,7 +3,8 @@ import java.io.Serializable;
 public class DoubleRoom extends Room{
 
     public DoubleRoom(Client client1, Client client2, int roomNumber, boolean isLuxury) {
-        super(isLuxury,roomNumber);
+        this.roomNumber = roomNumber;
+        this.roomType = isLuxury ? RoomType.DoubleLuxury : RoomType.DoubleNotLuxury;
         this.clients = new Client[2];
         clients[0] = client1;
         clients[1] = client2;

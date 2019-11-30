@@ -9,16 +9,7 @@ class Hotel {
 
     final private static Scanner sc = new Scanner(System.in);
 
-    public enum RoomType {DoubleLuxury, DoubleNotLuxury, SingleLuxury, SingleNotLuxury}
 
-    public static RoomType intToRoomType(int roomType) {
-        int index = roomType - 1;
-        if(index < 0 || index > RoomType.values().length){
-            System.out.println("Enter valid option");
-            throw new IllegalArgumentException("The selected room type doesn't exist");
-        }
-        return RoomType.values()[index];
-    }
 
     private Room getRoomByNumber(int roomNumber){
         return rooms[roomNumber - 1];
@@ -66,7 +57,7 @@ class Hotel {
         Room room = rooms[roomNumber - 1];
 
         //if doubleroom
-        if (room instanceof DoubleRoom) {
+        if (room.isDoubleRoom()) {
             client2 = createClient("second ");
             return new Client[]{client1, client2};
         }
@@ -83,11 +74,11 @@ class Hotel {
         return availableRooms;
     }
 
-    public void printAvailableRoomNumber(RoomType roomType) {
+    public void printAvailableRoomNumber(Room.RoomType roomType) {
         System.out.println("\nChoose room number from: ");
 
-        boolean doubleRoom = roomType == RoomType.DoubleNotLuxury || roomType == RoomType.DoubleLuxury;
-        boolean luxury = roomType == RoomType.SingleNotLuxury || roomType == RoomType.SingleLuxury;
+        boolean doubleRoom = roomType.isDoubleRoom();
+        boolean luxury = roomType.isLuxuryRoom();
         StringBuilder roomsListBuilder = new StringBuilder();
         for (Room room : availableRooms(doubleRoom, luxury))
             roomsListBuilder.append(room.getRoomNumber() + ",");
@@ -110,31 +101,12 @@ class Hotel {
     }
 
 
-    static void features(int i) {
-        RoomType roomType = intToRoomType(i);
-        switch (roomType) {
-            case DoubleLuxury:
-                System.out.println("Number of double beds : 1\nAC : Yes\nFree breakfast : Yes\nCharge per day:4000 ");
-                break;
-            case DoubleNotLuxury:
-                System.out.println("Number of double beds : 1\nAC : No\nFree breakfast : Yes\nCharge per day:3000  ");
-                break;
-            case SingleLuxury:
-                System.out.println("Number of single beds : 1\nAC : Yes\nFree breakfast : Yes\nCharge per day:2200  ");
-                break;
-            case SingleNotLuxury:
-                System.out.println("Number of single beds : 1\nAC : No\nFree breakfast : Yes\nCharge per day:1200 ");
-                break;
-            default:
-                System.out.println("Enter valid option");
-                break;
-        }
-    }
 
 
-    int availability(RoomType roomType) {
-        boolean doubleRoom = roomType == RoomType.DoubleLuxury || roomType == RoomType.DoubleNotLuxury;
-        boolean luxury = roomType == RoomType.SingleLuxury || roomType == RoomType.DoubleLuxury;
+
+    int availability(Room.RoomType roomType) {
+        boolean doubleRoom = roomType.isDoubleRoom();
+        boolean luxury = roomType.isLuxuryRoom();
         int count = 0;
         for (Room room : rooms) {
             count += room.countAvailable(doubleRoom, luxury);
@@ -142,35 +114,21 @@ class Hotel {
         return count;
     }
 
-    private static void billPrinting(Room room) {
-        System.out.println("\nRoom Charge - " + room.getCharge());
-        System.out.println("\n===============");
-        System.out.println("Food Charges:- ");
-        System.out.println("===============");
-        System.out.println("Item   Quantity    Price");
-        System.out.println("-------------------------");
-        for(Food food: room.getFoods())
-        {
-            String format = "%-10s%-10s%-10s%n";
-            System.out.printf(format,food.getItemName(),food.getQuantity(),food.getPrice());
-        }
-    }
 
-    private void calculateBill(Room room) {
-        double amount = room.getCharge();
-        billPrinting(room);
-
+    private long calculateBill(Room room) {
+        long amount = room.getCharge();
         for (Food food : room.getFoods()) {
             amount += food.getPrice();
         }
-        System.out.println("\nTotal Amount- " + amount);
+        return amount;
     }
 
     private void bill(Room room) {
         System.out.println("\n*******");
         System.out.println(" Bill:-");
         System.out.println("*******");
-        calculateBill(room);
+        RoomLogger.printBill(room);
+        System.out.println("\nTotal Amount- " + calculateBill(room));
     }
 
     void checkout(int roomNumber) {

@@ -103,5 +103,18 @@ public class SingleRoomTest {
         assert (singleRoom.getCharge() == 2200);
     }
 
+    @Test
+    public void SingleRoomLuxuryRightRoomType(){
+        SingleRoom singleRoom = new SingleRoom(null, roomNumber,true);
+        assert (singleRoom.isLuxury());
+        assert (!singleRoom.isDoubleRoom());
+    }
+
+    @Test
+    public void SingleRoomNotLuxuryRightRoomType(){
+        SingleRoom singleRoom = new SingleRoom(null, roomNumber,false);
+        assert (!singleRoom.isLuxury());
+        assert (!singleRoom.isDoubleRoom());
+    }
 
 }

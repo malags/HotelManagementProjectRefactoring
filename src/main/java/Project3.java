@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Project3 {
 
     enum com {DisplayRoomDetails, DisplayRoomAvailability, BookRoom, OrderFood, Checkout, Exit};
-    private static final String chooseRoom = "\nChoose room type :\n1.Luxury Double Room \n2.Deluxe Double Room \n3.Luxury Single Room \n4.Deluxe Single Room\n";
+
     public static void main(String[] args) {
 
         try {
@@ -28,20 +28,20 @@ public class Project3 {
                 System.out.println("\nEnter your choice :\n1.Display room details\n2.Display room availability \n3.Book\n4.Order food\n5.Checkout\n6.Exit\n");
                 switch (com.values()[sc.nextInt()-1]) {
                     case DisplayRoomDetails:
-                        System.out.println(chooseRoom);
+                        RoomLogger.chooseRoomRequest();
                         roomSelection = sc.nextInt();
-                        Hotel.features(roomSelection);
+                        RoomLogger.features(roomSelection);
                         break;
                     case DisplayRoomAvailability:
-                        System.out.println(chooseRoom);
+                        RoomLogger.chooseRoomRequest();
                         roomSelection = sc.nextInt();
                         System.out.print("Number of rooms available : ");
-                        System.out.print(hotel.availability(Hotel.intToRoomType(roomSelection)));
+                        System.out.print(hotel.availability(Room.intToRoomType(roomSelection)));
                         break;
                     case BookRoom:
-                        System.out.println(chooseRoom);
+                        RoomLogger.chooseRoomRequest();
                         roomSelection = sc.nextInt();
-                        hotel.printAvailableRoomNumber(Hotel.intToRoomType(roomSelection));
+                        hotel.printAvailableRoomNumber(Room.intToRoomType(roomSelection));
 
                         //TODO: extract, other functionality
                         System.out.print("\nEnter room number: ");

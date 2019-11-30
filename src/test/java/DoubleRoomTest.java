@@ -132,4 +132,18 @@ public class DoubleRoomTest {
         DoubleRoom doubleRoom = new DoubleRoom(null,null, roomNumber,true);
         assert (doubleRoom.getCharge() == 4000);
     }
+
+    @Test
+    public void DoubleRoomLuxuryRightRoomType(){
+        DoubleRoom doubleRoom = new DoubleRoom(null,null, roomNumber,true);
+        assert (doubleRoom.isLuxury());
+        assert (doubleRoom.isDoubleRoom());
+    }
+
+    @Test
+    public void DoubleRoomNotLuxuryRightRoomType(){
+        DoubleRoom doubleRoom = new DoubleRoom(null,null, roomNumber,false);
+        assert (!doubleRoom.isLuxury());
+        assert (doubleRoom.isDoubleRoom());
+    }
 }

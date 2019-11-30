@@ -19,22 +19,22 @@ public class HotelTest {
 
     @Test
     public void hotelLuxuryDoubleNrAvailable() {
-        assert (hotel.availability(Hotel.RoomType.DoubleLuxury) == 10);
+        assert (hotel.availability(Room.RoomType.DoubleLuxury) == 10);
     }
 
     @Test
     public void hotelNotLuxuryDoubleNrAvailable() {
-        assert (hotel.availability(Hotel.RoomType.DoubleNotLuxury) == 20);
+        assert (hotel.availability(Room.RoomType.DoubleNotLuxury) == 20);
     }
 
     @Test
     public void hotelLuxurySingleNrAvailable() {
-        assert (hotel.availability(Hotel.RoomType.SingleLuxury) == 10);
+        assert (hotel.availability(Room.RoomType.SingleLuxury) == 10);
     }
 
     @Test
     public void hotelNotLuxurySingleNrAvailable() {
-        assert (hotel.availability(Hotel.RoomType.SingleNotLuxury) == 20);
+        assert (hotel.availability(Room.RoomType.SingleNotLuxury) == 20);
     }
 
     @Test
