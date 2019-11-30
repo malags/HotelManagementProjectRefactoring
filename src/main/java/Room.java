@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public abstract class Room implements Serializable {
 
     public enum RoomType {
-        DoubleLuxury("Luxury Double Room"){
+        DoubleLuxury("Luxury Double Room") {
             @Override
             public boolean isDoubleRoom() {
                 return true;
@@ -47,20 +47,23 @@ public abstract class Room implements Serializable {
         };
 
         private String name;
-        RoomType(String name){
+
+        RoomType(String name) {
             this.name = name;
         }
-        public String getName(){
+
+        public String getName() {
             return name;
         }
 
         public abstract boolean isDoubleRoom();
+
         public abstract boolean isLuxuryRoom();
     }
 
     public static RoomType intToRoomType(int roomType) {
         int index = roomType - 1;
-        if(index < 0 || index > RoomType.values().length){
+        if (index < 0 || index > RoomType.values().length) {
             System.out.println("Enter valid option");
             throw new IllegalArgumentException("The selected room type doesn't exist");
         }
@@ -82,7 +85,7 @@ public abstract class Room implements Serializable {
 
     abstract boolean isEmpty();
 
-    boolean isLuxury(){
+    boolean isLuxury() {
         return roomType.isLuxuryRoom();
     }
 
@@ -90,19 +93,19 @@ public abstract class Room implements Serializable {
 
     public abstract int countAvailable(boolean doubleRoom, boolean luxury);
 
-    public Client[] getClients(){
+    public Client[] getClients() {
         return clients;
     }
 
-    abstract  public void book(Client... clients);
+    abstract public void book(Client... clients);
 
     public abstract int getCharge();
 
-    public boolean isDoubleRoom(){
+    public boolean isDoubleRoom() {
         return roomType.isDoubleRoom();
     }
 
-    public void addFood(Food food){
+    public void addFood(Food food) {
         foods.add(food);
     }
 }

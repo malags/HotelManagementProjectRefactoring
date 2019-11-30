@@ -10,11 +10,6 @@ class Hotel {
     final private static Scanner sc = new Scanner(System.in);
 
 
-
-    private Room getRoomByNumber(int roomNumber){
-        return rooms[roomNumber - 1];
-    }
-
     public Hotel(Room[] rooms) {
         this.rooms = rooms;
     }
@@ -34,31 +29,23 @@ class Hotel {
         this.rooms = rooms.toArray(new Room[60]);
     }
 
-    private static Client createClient(String customerPosition) {
-        String name, contact, gender;
-        System.out.println("\nEnter " + customerPosition + "customer name:");
-        name = sc.next();
-        System.out.println("Enter contact number:");
-        contact = sc.next();
-        System.out.println("Enter gender:");
-        gender = sc.next();
-        return new Client(name, contact, gender);
+    private Room getRoomByNumber(int roomNumber) {
+        return rooms[roomNumber - 1];
     }
 
     public boolean roomIsAvailable(int roomNumber) {
-        return rooms[roomNumber - 1].isEmpty();
+        return getRoomByNumber(roomNumber).isEmpty();
     }
 
 
     public Client[] StdInClientsForRoom(int roomNumber) {
 
-        Client client1 = createClient("first ");
+        Client client1 = Client.createClientFromInput("first ");
         Client client2 = null;
-        Room room = rooms[roomNumber - 1];
+        Room room = getRoomByNumber(roomNumber);
 
-        //if doubleroom
         if (room.isDoubleRoom()) {
-            client2 = createClient("second ");
+            client2 = Client.createClientFromInput("second ");
             return new Client[]{client1, client2};
         }
 
@@ -90,9 +77,6 @@ class Hotel {
     }
 
 
-
-
-
     int availability(Room.RoomType roomType) {
         boolean doubleRoom = roomType.isDoubleRoom();
         boolean luxury = roomType.isLuxuryRoom();
@@ -113,12 +97,12 @@ class Hotel {
     }
 
     private void bill(Room room) {
-        Logger.printRoomBill(room,calculateBill(room));
+        Logger.printRoomBill(room, calculateBill(room));
     }
 
     void checkout(int roomNumber) {
         Room room = getRoomByNumber(roomNumber);
-        if(room.isEmpty()){
+        if (room.isEmpty()) {
             System.out.println("The room is already empty");
             return;
         }
@@ -126,12 +110,11 @@ class Hotel {
         System.out.println("Room used by " + room.getClients()[0].getName());
         System.out.println("Do you want to checkout ?(y/n)");
         char reply = sc.next().charAt(0);
-        if(reply == 'y'){
+        if (reply == 'y') {
             bill(room);
             room.setEmpty();
             System.out.println("Deallocated successfully");
-        }
-        else{
+        } else {
             System.out.println("Checkout cancelled");
         }
 
@@ -151,14 +134,14 @@ class Hotel {
             System.out.print("\nSelect Item ");
             int itemNr = sc.nextInt();
 
-            if(itemNr < 1 || itemNr > 4) {
+            if (itemNr < 1 || itemNr > 4) {
                 System.out.println("Invalid Item");
                 return;
             }
 
             System.out.print("Select Quantity ");
             int quantity = sc.nextInt();
-            if(quantity < 1) {
+            if (quantity < 1) {
                 System.out.println("Invalid Quantity");
                 return;
             }

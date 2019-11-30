@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class DoubleRoom extends Room{
+public class DoubleRoom extends Room {
 
     public DoubleRoom(Client client1, Client client2, int roomNumber, boolean isLuxury) {
         this.roomNumber = roomNumber;
@@ -22,15 +22,15 @@ public class DoubleRoom extends Room{
 
     @Override
     public int countAvailable(boolean doubleRoom, boolean luxury) {
-        return doubleRoom && (luxury == isLuxury()) && isEmpty()? 1 : 0;
+        return doubleRoom && (luxury == isLuxury()) && isEmpty() ? 1 : 0;
     }
 
     @Override
     public void book(Client... clients) {
         assert (clients.length <= 2);
-        if(clients.length < 2)
+        if (clients.length < 2)
             this.clients[0] = clients[0];
-        else{
+        else {
             this.clients[0] = clients[0];
             this.clients[1] = clients[1];
         }

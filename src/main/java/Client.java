@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.Scanner;
 
 public class Client implements Serializable {
 
@@ -22,6 +23,18 @@ public class Client implements Serializable {
 
     public String getGender() {
         return gender;
+    }
+
+    public static Client createClientFromInput(String customerPosition) {
+        Scanner sc = new Scanner(System.in);
+        String name, contact, gender;
+        System.out.println("\nEnter " + customerPosition + "customer name:");
+        name = sc.next();
+        System.out.println("Enter contact number:");
+        contact = sc.next();
+        System.out.println("Enter gender:");
+        gender = sc.next();
+        return new Client(name, contact, gender);
     }
 
 }

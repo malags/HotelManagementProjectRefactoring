@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Project3 {
 
-    enum com {DisplayRoomDetails, DisplayRoomAvailability, BookRoom, OrderFood, Checkout, Exit};
+    enum command {DisplayRoomDetails, DisplayRoomAvailability, BookRoom, OrderFood, Checkout, Exit};
 
     public static void main(String[] args) {
 
@@ -15,9 +15,8 @@ public class Project3 {
             if (file.exists()) {
                 FileInputStream fileInputStream = new FileInputStream(file);
                 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-                hotel = new Hotel ((Room[]) objectInputStream.readObject());
-            }
-            else
+                hotel = new Hotel((Room[]) objectInputStream.readObject());
+            } else
                 hotel = new Hotel();
             Scanner sc = new Scanner(System.in);
             int roomSelection;
@@ -25,8 +24,8 @@ public class Project3 {
 
             do {
 
-                System.out.println("\nEnter your choice :\n1.Display room details\n2.Display room availability \n3.Book\n4.Order food\n5.Checkout\n6.Exit\n");
-                switch (com.values()[sc.nextInt()-1]) {
+                Logger.requestMainCommand();
+                switch (command.values()[sc.nextInt() - 1]) {
                     case DisplayRoomDetails:
                         Logger.chooseRoomRequest();
                         roomSelection = sc.nextInt();
@@ -41,7 +40,7 @@ public class Project3 {
                     case BookRoom:
                         Logger.chooseRoomRequest();
                         roomSelection = sc.nextInt();
-                        Logger.printAvailableRoomNumbers(hotel,Room.intToRoomType(roomSelection));
+                        Logger.printAvailableRoomNumbers(hotel, Room.intToRoomType(roomSelection));
 
                         //TODO: extract, other functionality
                         System.out.print("\nEnter room number: ");
@@ -52,10 +51,10 @@ public class Project3 {
 
                             Client[] clients = hotel.StdInClientsForRoom(roomNumber);
                             assert (hotel.roomIsAvailable(roomNumber));
-                            if(!hotel.roomIsAvailable(roomNumber))
+                            if (!hotel.roomIsAvailable(roomNumber))
                                 System.out.println("The room is already in use");
-                            hotel.bookRoom(roomNumber,clients);
-                            System.out.println("Booked room number "+ roomNumber);
+                            hotel.bookRoom(roomNumber, clients);
+                            System.out.println("Booked room number " + roomNumber);
                             assert (!hotel.roomIsAvailable(roomNumber));
                         } catch (Exception e) {
                             System.out.println("Invalid Option");

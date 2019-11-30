@@ -2,7 +2,7 @@ public interface Logger {
 
     static void printRoomBill(Room room,long total) {
         System.out.println("\n*******");
-        System.out.println(" Bill:-");
+        System.out.println(" Bill:-" + room.getClients()[0]);
         System.out.println("*******");
         System.out.println("\nRoom Charge - " + room.getCharge());
         System.out.println("\n===============");
@@ -60,5 +60,9 @@ public interface Logger {
         for (Room room : hotel.availableRooms(doubleRoom, luxury))
             roomsListBuilder.append(room.getRoomNumber() + ",");
         System.out.println(roomsListBuilder.subSequence(0,roomsListBuilder.length()));
+    }
+
+    static void requestMainCommand(){
+        System.out.println("\nEnter your choice :\n1.Display room details\n2.Display room availability \n3.Book\n4.Order food\n5.Checkout\n6.Exit\n");
     }
 }

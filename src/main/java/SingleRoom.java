@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class SingleRoom extends Room{
+public class SingleRoom extends Room {
 
     public SingleRoom(Client client1, int roomNumber, boolean isLuxury) {
         this.roomNumber = roomNumber;
