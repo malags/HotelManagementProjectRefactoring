@@ -14,7 +14,6 @@ class Write implements Runnable {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream("backup");
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            //TODO: change to single array
             objectOutputStream.writeObject(hotel.rooms);
         } catch (Exception e) {
             System.out.println("Error in writing " + e);

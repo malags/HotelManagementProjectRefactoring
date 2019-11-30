@@ -143,7 +143,6 @@ class Hotel {
     }
 
     private static void billPrinting(Room room) {
-        String[] list = {"Sandwich", "Pasta", "Noodles", "Coke"};
         System.out.println("\nRoom Charge - " + room.getCharge());
         System.out.println("\n===============");
         System.out.println("Food Charges:- ");
@@ -153,7 +152,7 @@ class Hotel {
         for(Food food: room.getFoods())
         {
             String format = "%-10s%-10s%-10s%n";
-            System.out.printf(format,list[food.getItemno()-1],food.getQuantity(),food.getPrice() );
+            System.out.printf(format,food.getItemName(),food.getQuantity(),food.getPrice() * food.getQuantity());
         }
     }
 
@@ -204,8 +203,12 @@ class Hotel {
         char wish;
 
         do {
-            System.out.println("\n==========\nMenu:\n==========\n\n1.Sandwich\tRs.50\n2.Pasta\t\tRs.60\n3.Noodles\tRs.70\n4.Coke\t\tRs.30\n");
-            System.out.print("Select Item");
+            System.out.println("\n==========\nMenu:\n==========\n");
+
+            for(Food.FoodType foodType : Food.FoodType.values())
+                System.out.format("%s.%-15sRs.%s\n", new Object[]{foodType.ordinal() + 1, foodType.name(), foodType.getPrice()});
+
+            System.out.print("\nSelect Item");
             int itemNr = sc.nextInt();
 
             if(itemNr < 1 || itemNr > 4) {
@@ -220,7 +223,7 @@ class Hotel {
                 return;
             }
 
-            room.getFoods().add(new Food(itemNr, quantity));
+            room.getFoods().add(new Food(Food.FoodType.values()[itemNr], quantity));
 
             System.out.println("Do you want to order anything else ? (y/n)");
             wish = sc.next().charAt(0);

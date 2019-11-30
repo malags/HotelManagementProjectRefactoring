@@ -2,9 +2,9 @@ import java.io.Serializable;
 
 public class Client implements Serializable {
 
-    private String name;
-    private String contact;
-    private String gender;
+    final private String name;
+    final private String contact;
+    final private String gender;
 
     public Client(String name, String contact, String gender) {
         this.name = name;
@@ -16,23 +16,12 @@ public class Client implements Serializable {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getContact() {
         return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
     }
 
     public String getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
 }
