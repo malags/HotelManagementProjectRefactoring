@@ -33,4 +33,8 @@ class Food implements Serializable {
     public float getPrice() {
         return quantity * item.price;
     }
+
+    public static FoodType getFoodType(int index){
+        return FoodType.values()[index-1];
+    }
 }

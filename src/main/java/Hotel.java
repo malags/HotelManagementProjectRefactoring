@@ -152,7 +152,7 @@ class Hotel {
         for(Food food: room.getFoods())
         {
             String format = "%-10s%-10s%-10s%n";
-            System.out.printf(format,food.getItemName(),food.getQuantity(),food.getPrice() * food.getQuantity());
+            System.out.printf(format,food.getItemName(),food.getQuantity(),food.getPrice());
         }
     }
 
@@ -208,7 +208,7 @@ class Hotel {
             for(Food.FoodType foodType : Food.FoodType.values())
                 System.out.format("%s.%-15sRs.%s\n", new Object[]{foodType.ordinal() + 1, foodType.name(), foodType.getPrice()});
 
-            System.out.print("\nSelect Item");
+            System.out.print("\nSelect Item ");
             int itemNr = sc.nextInt();
 
             if(itemNr < 1 || itemNr > 4) {
@@ -216,14 +216,14 @@ class Hotel {
                 return;
             }
 
-            System.out.print("Select Quantity");
+            System.out.print("Select Quantity ");
             int quantity = sc.nextInt();
             if(quantity < 1) {
                 System.out.println("Invalid Quantity");
                 return;
             }
 
-            room.getFoods().add(new Food(Food.FoodType.values()[itemNr], quantity));
+            room.getFoods().add(new Food(Food.getFoodType(itemNr), quantity));
 
             System.out.println("Do you want to order anything else ? (y/n)");
             wish = sc.next().charAt(0);
