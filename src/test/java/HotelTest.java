@@ -1,15 +1,9 @@
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.util.List;
-import java.util.Scanner;
 
 public class HotelTest {
     private final Client client1 = new Client("name", "contact", "gender");
-    private final Client client2 = new Client("name2", "contact2", "gender2");
-    private final int roomNumber = 1;
     private Hotel hotel = new Hotel();
 
     @Test

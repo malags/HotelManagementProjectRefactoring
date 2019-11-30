@@ -70,6 +70,18 @@ public class DoubleRoomTest {
     }
 
     @Test
+    public void DoubleRoomEmptiedAndBookedClearPrice() {
+        DoubleRoom doubleRoom = new DoubleRoom(client1, client2, roomNumber, false);
+        doubleRoom.addFood(new Food(Food.FoodType.Pasta,10));
+        assert (!doubleRoom.isEmpty());
+        assert (!doubleRoom.foods.isEmpty());
+        doubleRoom.setEmpty();
+        assert (doubleRoom.isEmpty());
+        assert (doubleRoom.foods.isEmpty());
+        assert (doubleRoom.clients.length == 2);
+    }
+
+    @Test
     public void DoubleRoomCountDoubleRoomNotLuxury() {
         DoubleRoom doubleRoom = new DoubleRoom(client1, client2, roomNumber, false);
         assert (doubleRoom.countAvailable(true, true) == 0);

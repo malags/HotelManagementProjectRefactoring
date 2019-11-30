@@ -2,7 +2,7 @@ public interface Logger {
 
     static void printRoomBill(Room room,long total) {
         System.out.println("\n*******");
-        System.out.println(" Bill:-" + room.getClients()[0]);
+        System.out.println(" Bill:-" + room.getClients()[0].getName());
         System.out.println("*******");
         System.out.println("\nRoom Charge - " + room.getCharge());
         System.out.println("\n===============");

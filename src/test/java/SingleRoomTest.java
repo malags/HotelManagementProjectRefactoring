@@ -116,4 +116,13 @@ public class SingleRoomTest {
         assert (!singleRoom.isDoubleRoom());
     }
 
+    @Test
+    public void SingleRoomEmptiedAndBookedClearPrice() {
+        SingleRoom singleRoom = new SingleRoom(client1, roomNumber, false);
+        singleRoom.addFood(new Food(Food.FoodType.Pasta,10));
+        assert (!singleRoom.foods.isEmpty());
+        singleRoom.setEmpty();
+        assert (singleRoom.foods.isEmpty());
+    }
+
 }

@@ -3,6 +3,12 @@ import java.util.ArrayList;
 
 public abstract class Room implements Serializable {
 
+    protected Room(int roomNumber, RoomType roomType, Client[] clients) {
+        this.roomNumber = roomNumber;
+        this.roomType = roomType;
+        this.clients = clients;
+    }
+
     public enum RoomType {
         DoubleLuxury("Luxury Double Room") {
             @Override
@@ -70,10 +76,10 @@ public abstract class Room implements Serializable {
         return RoomType.values()[index];
     }
 
-    int roomNumber;
-    RoomType roomType;
-    private ArrayList<Food> foods = new ArrayList<>();
-    Client[] clients;
+    final int roomNumber;
+    final RoomType roomType;
+    ArrayList<Food> foods = new ArrayList<>();
+    final Client[] clients;
 
     public ArrayList<Food> getFoods() {
         return foods;

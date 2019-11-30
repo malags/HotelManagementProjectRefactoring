@@ -1,11 +1,10 @@
-import java.io.Serializable;
-
 public class SingleRoom extends Room {
 
     public SingleRoom(Client client1, int roomNumber, boolean isLuxury) {
-        this.roomNumber = roomNumber;
-        this.roomType = isLuxury ? RoomType.SingleLuxury : RoomType.SingleNotLuxury;
-        this.clients = new Client[1];
+        super(
+                roomNumber,
+                isLuxury ? RoomType.SingleLuxury : RoomType.SingleNotLuxury,
+                new Client[1]);
         this.clients[0] = client1;
     }
 
@@ -16,7 +15,8 @@ public class SingleRoom extends Room {
 
     @Override
     void setEmpty() {
-        clients = new Client[1];
+        clients[0] = null;
+        foods.clear();
     }
 
     @Override
