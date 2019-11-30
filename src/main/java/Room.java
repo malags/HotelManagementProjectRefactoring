@@ -101,4 +101,8 @@ public abstract class Room implements Serializable {
     public boolean isDoubleRoom(){
         return roomType.isDoubleRoom();
     }
+
+    public void addFood(Food food){
+        foods.add(food);
+    }
 }

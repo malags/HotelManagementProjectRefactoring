@@ -28,20 +28,20 @@ public class Project3 {
                 System.out.println("\nEnter your choice :\n1.Display room details\n2.Display room availability \n3.Book\n4.Order food\n5.Checkout\n6.Exit\n");
                 switch (com.values()[sc.nextInt()-1]) {
                     case DisplayRoomDetails:
-                        RoomLogger.chooseRoomRequest();
+                        Logger.chooseRoomRequest();
                         roomSelection = sc.nextInt();
-                        RoomLogger.features(roomSelection);
+                        Logger.roomFeatures(roomSelection);
                         break;
                     case DisplayRoomAvailability:
-                        RoomLogger.chooseRoomRequest();
+                        Logger.chooseRoomRequest();
                         roomSelection = sc.nextInt();
                         System.out.print("Number of rooms available : ");
                         System.out.print(hotel.availability(Room.intToRoomType(roomSelection)));
                         break;
                     case BookRoom:
-                        RoomLogger.chooseRoomRequest();
+                        Logger.chooseRoomRequest();
                         roomSelection = sc.nextInt();
-                        hotel.printAvailableRoomNumber(Room.intToRoomType(roomSelection));
+                        Logger.printAvailableRoomNumbers(hotel,Room.intToRoomType(roomSelection));
 
                         //TODO: extract, other functionality
                         System.out.print("\nEnter room number: ");

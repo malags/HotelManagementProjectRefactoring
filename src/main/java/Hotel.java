@@ -74,18 +74,7 @@ class Hotel {
         return availableRooms;
     }
 
-    public void printAvailableRoomNumber(Room.RoomType roomType) {
-        System.out.println("\nChoose room number from: ");
 
-        boolean doubleRoom = roomType.isDoubleRoom();
-        boolean luxury = roomType.isLuxuryRoom();
-        StringBuilder roomsListBuilder = new StringBuilder();
-        for (Room room : availableRooms(doubleRoom, luxury))
-            roomsListBuilder.append(room.getRoomNumber() + ",");
-        System.out.println(roomsListBuilder.subSequence(0,roomsListBuilder.length()));
-    }
-
-    //TODO: possibly use this instead
     public void bookRoom(int roomNumber, Client[] clients) {
         Room room = getRoomByNumber(roomNumber);
         if (room.clients.length < clients.length) {
@@ -124,11 +113,7 @@ class Hotel {
     }
 
     private void bill(Room room) {
-        System.out.println("\n*******");
-        System.out.println(" Bill:-");
-        System.out.println("*******");
-        RoomLogger.printBill(room);
-        System.out.println("\nTotal Amount- " + calculateBill(room));
+        Logger.printRoomBill(room,calculateBill(room));
     }
 
     void checkout(int roomNumber) {
@@ -161,10 +146,7 @@ class Hotel {
         char wish;
 
         do {
-            System.out.println("\n==========\nMenu:\n==========\n");
-
-            for(Food.FoodType foodType : Food.FoodType.values())
-                System.out.format("%s.%-15sRs.%s\n", new Object[]{foodType.ordinal() + 1, foodType.name(), foodType.getPrice()});
+            Logger.printFoodMenu();
 
             System.out.print("\nSelect Item ");
             int itemNr = sc.nextInt();
@@ -181,7 +163,7 @@ class Hotel {
                 return;
             }
 
-            room.getFoods().add(new Food(Food.getFoodType(itemNr), quantity));
+            room.addFood(new Food(Food.getFoodType(itemNr), quantity));
 
             System.out.println("Do you want to order anything else ? (y/n)");
             wish = sc.next().charAt(0);

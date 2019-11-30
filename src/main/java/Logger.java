@@ -1,6 +1,9 @@
-public interface RoomLogger {
+public interface Logger {
 
-    static void printBill(Room room) {
+    static void printRoomBill(Room room,long total) {
+        System.out.println("\n*******");
+        System.out.println(" Bill:-");
+        System.out.println("*******");
         System.out.println("\nRoom Charge - " + room.getCharge());
         System.out.println("\n===============");
         System.out.println("Food Charges:- ");
@@ -12,9 +15,10 @@ public interface RoomLogger {
             String format = "%-10s%-10s%-10s%n";
             System.out.printf(format,food.getItemName(),food.getQuantity(),food.getPrice());
         }
+        System.out.println("\nTotal Amount- " + total);
     }
 
-    static void features(int i) {
+    static void roomFeatures(int i) {
         Room.RoomType roomType = Room.intToRoomType(i);
         switch (roomType) {
             case DoubleLuxury:
@@ -39,5 +43,22 @@ public interface RoomLogger {
         System.out.println("\nChoose room type :\n");
         for(Room.RoomType roomType : Room.RoomType.values())
             System.out.format("%s.%s\n", new Object[]{roomType.ordinal()+1, roomType.getName()});
+    }
+
+    static void printFoodMenu() {
+        System.out.println("\n==========\nMenu:\n==========\n");
+        for(Food.FoodType foodType : Food.FoodType.values())
+            System.out.format("%s.%-15sRs.%s\n", new Object[]{foodType.ordinal() + 1, foodType.name(), foodType.getPrice()});
+    }
+
+    static void printAvailableRoomNumbers(Hotel hotel, Room.RoomType roomType) {
+        System.out.println("\nChoose room number from: ");
+
+        boolean doubleRoom = roomType.isDoubleRoom();
+        boolean luxury = roomType.isLuxuryRoom();
+        StringBuilder roomsListBuilder = new StringBuilder();
+        for (Room room : hotel.availableRooms(doubleRoom, luxury))
+            roomsListBuilder.append(room.getRoomNumber() + ",");
+        System.out.println(roomsListBuilder.subSequence(0,roomsListBuilder.length()));
     }
 }
