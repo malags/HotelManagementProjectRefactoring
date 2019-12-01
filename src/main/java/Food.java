@@ -1,12 +1,12 @@
 import java.io.Serializable;
 
 /**
- *
+ * Class representing the food object.
  */
 class Food implements Serializable {
 
     /**
-     *
+     * Enum that represents food type whit price.
      */
     public enum FoodType {
         Sandwich(50), Pasta(60), Noodles(70), Coke(30);
@@ -21,7 +21,7 @@ class Food implements Serializable {
         }
 
         /**
-         * @return
+         * @return the price of the corresponding food.
          */
         public int getPrice() {
             return price;
@@ -30,7 +30,7 @@ class Food implements Serializable {
 
 
     /**
-     *
+     * Fields that represent the food object.
      */
     private final int quantity;
     private FoodType item;
@@ -46,21 +46,21 @@ class Food implements Serializable {
     }
 
     /**
-     * @return
+     * @return the type of food.
      */
     public String getItemName() {
         return item.name();
     }
 
     /**
-     * @return
+     * @return the quantity of food.
      */
     public int getQuantity() {
         return quantity;
     }
 
     /**
-     * @return
+     * @return the price of food.
      */
     public float getPrice() {
         return quantity * item.price;
@@ -68,7 +68,7 @@ class Food implements Serializable {
 
     /**
      * @param index
-     * @return
+     * @return the type of food.
      */
     public static FoodType getFoodType(int index) {
         return FoodType.values()[index - 1];

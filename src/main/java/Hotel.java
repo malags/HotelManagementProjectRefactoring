@@ -3,16 +3,27 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Class representing a Hotel object.
+ */
 public class Hotel {
 
+    /**
+     * Fields that represent the hotel object.
+     */
     protected final Room[] rooms;
     protected final static Scanner scanner = new Scanner(System.in);
 
-
+    /**
+     * @param rooms Constructor in which an array of rooms is passed as a parameter.
+     */
     public Hotel(Room[] rooms) {
         this.rooms = rooms;
     }
 
+    /**
+     * Constructor that initializes the array of rooms.
+     */
     public Hotel() {
         //can factor out some more
         List<Room> rooms = new ArrayList<>();
@@ -28,15 +39,26 @@ public class Hotel {
         this.rooms = rooms.toArray(new Room[60]);
     }
 
+    /**
+     * @param roomNumber
+     * @return an room from array depending on the value passed as a parameter.
+     */
     private Room getRoomByNumber(int roomNumber) {
         return rooms[roomNumber - 1];
     }
 
+    /**
+     * @param roomNumber
+     * @return a true value if the room is available, otherwise false.
+     */
     public boolean roomIsAvailable(int roomNumber) {
         return getRoomByNumber(roomNumber).isEmpty();
     }
 
-
+    /**
+     * @param roomNumber
+     * @return method to initialize client array.
+     */
     public Client[] StdInClientsForRoom(int roomNumber) {
 
         Client client1 = Client.createClientFromInput("first ");
@@ -51,6 +73,11 @@ public class Hotel {
         return new Client[]{client1};
     }
 
+    /**
+     * @param doubleRoom
+     * @param luxury
+     * @return list of rooms available.
+     */
     public List<Room> availableRooms(boolean doubleRoom, boolean luxury) {
         List<Room> availableRooms = new ArrayList<>();
         for (Room room : rooms)
@@ -61,6 +88,10 @@ public class Hotel {
     }
 
 
+    /**
+     * @param roomNumber
+     * @param clients    method to book a room.
+     */
     public void bookRoom(int roomNumber, Client[] clients) {
         Room room = getRoomByNumber(roomNumber);
         if (room.clients.length < clients.length) {
@@ -75,7 +106,10 @@ public class Hotel {
         room.book(clients);
     }
 
-
+    /**
+     * @param roomType
+     * @return the value of rooms available.
+     */
     int availability(Room.RoomType roomType) {
         boolean doubleRoom = roomType.isDoubleRoom();
         boolean luxury = roomType.isLuxuryRoom();
@@ -86,7 +120,10 @@ public class Hotel {
         return count;
     }
 
-
+    /**
+     * @param room
+     * @return the value of a room bill.
+     */
     protected long calculateBill(Room room) {
         long amount = room.getCharge();
         for (Food food : room.getFoods()) {
@@ -95,10 +132,16 @@ public class Hotel {
         return amount;
     }
 
+    /**
+     * @param room Method to print room bill.
+     */
     protected void bill(Room room) {
         Logger.printRoomBill(room, calculateBill(room));
     }
 
+    /**
+     * @param roomNumber Method to free up a busy room.
+     */
     protected void checkout(int roomNumber) {
         Room room = getRoomByNumber(roomNumber);
         if (room.isEmpty()) {
@@ -118,6 +161,10 @@ public class Hotel {
         }
     }
 
+    /**
+     * @param roomNumber Method to order a food for a room.
+     *                   The room number depends on the value passed as a parameter.
+     */
     protected void order(int roomNumber) {
         Room room = getRoomByNumber(roomNumber);
         if (room.isEmpty()) {

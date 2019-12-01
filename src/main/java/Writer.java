@@ -1,6 +1,9 @@
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * Class that implement interface runnable to store hotel data on a file called backup.
+ */
 class Writer implements Runnable {
 
     protected Hotel hotel;

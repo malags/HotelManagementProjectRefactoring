@@ -5,8 +5,15 @@ import java.util.Scanner;
 
 public class Project3 {
 
+    /**
+     * Enum that represent possible menu choices.
+     */
     enum command {DisplayRoomDetails, DisplayRoomAvailability, BookRoom, OrderFood, Checkout, Exit}
 
+    /**
+     * @param scanner
+     * @return Method to choose room number.
+     */
     protected static int chooseRoomNumber(Scanner scanner) {
         System.out.print("\nEnter room number: ");
         int roomNumber = scanner.nextInt();
@@ -17,11 +24,19 @@ public class Project3 {
         return roomNumber;
     }
 
+    /**
+     * @param scanner
+     * @return Method to choose room.
+     */
     protected static int roomSelection(Scanner scanner) {
         Logger.chooseRoomRequest();
         return scanner.nextInt();
     }
 
+    /**
+     * @param scanner
+     * @return Method that allow the continuation of the execution.
+     */
     protected static boolean continuation(Scanner scanner) {
         char choice;
         do {
@@ -32,11 +47,17 @@ public class Project3 {
         return choice == 'y';
     }
 
+    /**
+     * @param hotel Method tha allow to write the current status on a backup file.
+     */
     public static void writeFile(Hotel hotel) {
         Thread t = new Thread(new Writer(hotel));
         t.start();
     }
 
+    /**
+     * @param args Main function.
+     */
     public static void main(String[] args) {
 
         Hotel hotel = null;
