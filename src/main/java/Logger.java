@@ -1,6 +1,6 @@
 public interface Logger {
 
-    static void printRoomBill(Room room,long total) {
+    static void printRoomBill(Room room, long total) {
         System.out.println("\n*******");
         System.out.println(" Bill:-" + room.getClients()[0].getName());
         System.out.println("*******");
@@ -10,10 +10,9 @@ public interface Logger {
         System.out.println("===============");
         System.out.println("Item   Quantity    Price");
         System.out.println("-------------------------");
-        for(Food food: room.getFoods())
-        {
+        for (Food food : room.getFoods()) {
             String format = "%-10s%-10s%-10s%n";
-            System.out.printf(format,food.getItemName(),food.getQuantity(),food.getPrice());
+            System.out.printf(format, food.getItemName(), food.getQuantity(), food.getPrice());
         }
         System.out.println("\nTotal Amount- " + total);
     }
@@ -39,16 +38,16 @@ public interface Logger {
         }
     }
 
-    static void chooseRoomRequest(){
+    static void chooseRoomRequest() {
         System.out.println("\nChoose room type :\n");
-        for(Room.RoomType roomType : Room.RoomType.values())
-            System.out.format("%s.%s\n", new Object[]{roomType.ordinal()+1, roomType.getName()});
+        for (Room.RoomType roomType : Room.RoomType.values())
+            System.out.format("%s.%s\n", roomType.ordinal() + 1, roomType.getName());
     }
 
     static void printFoodMenu() {
         System.out.println("\n==========\nMenu:\n==========\n");
-        for(Food.FoodType foodType : Food.FoodType.values())
-            System.out.format("%s.%-15sRs.%s\n", new Object[]{foodType.ordinal() + 1, foodType.name(), foodType.getPrice()});
+        for (Food.FoodType foodType : Food.FoodType.values())
+            System.out.format("%s.%-15sRs.%s\n", foodType.ordinal() + 1, foodType.name(), foodType.getPrice());
     }
 
     static void printAvailableRoomNumbers(Hotel hotel, Room.RoomType roomType) {
@@ -59,10 +58,10 @@ public interface Logger {
         StringBuilder roomsListBuilder = new StringBuilder();
         for (Room room : hotel.availableRooms(doubleRoom, luxury))
             roomsListBuilder.append(room.getRoomNumber() + ",");
-        System.out.println(roomsListBuilder.subSequence(0,roomsListBuilder.length()));
+        System.out.println(roomsListBuilder.subSequence(0, roomsListBuilder.length()));
     }
 
-    static void requestMainCommand(){
+    static void requestMainCommand() {
         System.out.println("\nEnter your choice :\n1.Display room details\n2.Display room availability \n3.Book\n4.Order food\n5.Checkout\n6.Exit\n");
     }
 }

@@ -36,5 +36,4 @@ public class Client implements Serializable {
         gender = scanner.next();
         return new Client(name, contactInfo, gender);
     }
-
 }

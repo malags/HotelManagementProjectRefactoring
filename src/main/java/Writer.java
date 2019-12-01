@@ -1,10 +1,11 @@
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 
-class Write implements Runnable {
-    Hotel hotel;
+class Writer implements Runnable {
 
-    public Write(Hotel hotel){
+    protected Hotel hotel;
+
+    public Writer(Hotel hotel) {
         this.hotel = hotel;
     }
 
@@ -19,6 +20,5 @@ class Write implements Runnable {
         } catch (Exception e) {
             System.out.println("Error in writing " + e);
         }
-
     }
 }

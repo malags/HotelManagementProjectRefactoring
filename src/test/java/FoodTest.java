@@ -1,5 +1,7 @@
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class FoodTest {
     @Test
     public void foodTypeRightOrder() {
@@ -42,5 +44,11 @@ public class FoodTest {
     public void getItemName() {
         Food food = new Food(Food.FoodType.Pasta, 1);
         assert (food.getItemName().equals("Pasta"));
+    }
+
+    @Test
+    public void getFoodType() {
+        Food.FoodType sandwich = Food.getFoodType(1);
+        assertEquals(sandwich, Food.FoodType.Sandwich);
     }
 }

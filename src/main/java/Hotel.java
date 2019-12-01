@@ -3,11 +3,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
-class Hotel {
+public class Hotel {
 
-    final Room[] rooms;
-
-    final private static Scanner sc = new Scanner(System.in);
+    protected final Room[] rooms;
+    protected final static Scanner scanner = new Scanner(System.in);
 
 
     public Hotel(Room[] rooms) {
@@ -41,7 +40,7 @@ class Hotel {
     public Client[] StdInClientsForRoom(int roomNumber) {
 
         Client client1 = Client.createClientFromInput("first ");
-        Client client2 = null;
+        Client client2;
         Room room = getRoomByNumber(roomNumber);
 
         if (room.isDoubleRoom()) {
@@ -88,7 +87,7 @@ class Hotel {
     }
 
 
-    private long calculateBill(Room room) {
+    protected long calculateBill(Room room) {
         long amount = room.getCharge();
         for (Food food : room.getFoods()) {
             amount += food.getPrice();
@@ -96,11 +95,11 @@ class Hotel {
         return amount;
     }
 
-    private void bill(Room room) {
+    protected void bill(Room room) {
         Logger.printRoomBill(room, calculateBill(room));
     }
 
-    void checkout(int roomNumber) {
+    protected void checkout(int roomNumber) {
         Room room = getRoomByNumber(roomNumber);
         if (room.isEmpty()) {
             System.out.println("The room is already empty");
@@ -109,7 +108,7 @@ class Hotel {
 
         System.out.println("Room used by " + room.getClients()[0].getName());
         System.out.println("Do you want to checkout ?(y/n)");
-        char reply = sc.next().charAt(0);
+        char reply = scanner.next().toLowerCase().charAt(0);
         if (reply == 'y') {
             bill(room);
             room.setEmpty();
@@ -117,10 +116,9 @@ class Hotel {
         } else {
             System.out.println("Checkout cancelled");
         }
-
     }
 
-    void order(int roomNumber) {
+    protected void order(int roomNumber) {
         Room room = getRoomByNumber(roomNumber);
         if (room.isEmpty()) {
             System.out.println("The room is not booked");
@@ -132,7 +130,7 @@ class Hotel {
             Logger.printFoodMenu();
 
             System.out.print("\nSelect Item ");
-            int itemNr = sc.nextInt();
+            int itemNr = scanner.nextInt();
 
             if (itemNr < 1 || itemNr > 4) {
                 System.out.println("Invalid Item");
@@ -140,7 +138,7 @@ class Hotel {
             }
 
             System.out.print("Select Quantity ");
-            int quantity = sc.nextInt();
+            int quantity = scanner.nextInt();
             if (quantity < 1) {
                 System.out.println("Invalid Quantity");
                 return;
@@ -149,8 +147,7 @@ class Hotel {
             room.addFood(new Food(Food.getFoodType(itemNr), quantity));
 
             System.out.println("Do you want to order anything else ? (y/n)");
-            wish = sc.next().charAt(0);
-        } while (wish == 'y' || wish == 'Y');
-
+            wish = scanner.next().toLowerCase().charAt(0);
+        } while (wish == 'y');
     }
 }

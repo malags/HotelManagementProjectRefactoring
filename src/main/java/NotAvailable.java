@@ -1,6 +1,6 @@
 class NotAvailable extends Exception {
 
-    private int id;
+    protected int id;
 
     public NotAvailable(int id) {
         this.id = id;
