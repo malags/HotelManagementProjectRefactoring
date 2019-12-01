@@ -2,10 +2,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
+import org.mockito.Mockito;
 
 import java.util.Scanner;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emptyStandardInputStream;
 
 
@@ -40,5 +41,19 @@ public class Project3Test {
         systemInMock.provideLines("1");
         int roomSelection = Project3.roomSelection(scanner);
         assertEquals(1, roomSelection);
+    }
+
+    @Test
+    public void continuation01() {
+        systemInMock.provideLines("y");
+        boolean flag = Project3.continuation(scanner);
+        assertTrue(flag);
+    }
+
+    @Test
+    public void continuation02() {
+        systemInMock.provideLines("n");
+        boolean flag = Project3.continuation(scanner);
+        assertFalse(flag);
     }
 }

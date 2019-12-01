@@ -1,4 +1,4 @@
-public interface Logger {
+public interface Logger  {
 
     static void printRoomBill(Room room, long total) {
         System.out.println("\n*******");
@@ -52,7 +52,6 @@ public interface Logger {
 
     static void printAvailableRoomNumbers(Hotel hotel, Room.RoomType roomType) {
         System.out.println("\nChoose room number from: ");
-
         boolean doubleRoom = roomType.isDoubleRoom();
         boolean luxury = roomType.isLuxuryRoom();
         StringBuilder roomsListBuilder = new StringBuilder();
