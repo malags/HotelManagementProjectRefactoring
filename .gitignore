@@ -1,5 +1,6 @@
 # Project exclude paths
 /target/
+Hotel-Management-Project-Refactoring.iml
 .idea/$CACHE_FILE$
 .idea/$PRODUCT_WORKSPACE_FILE$
 .idea/.gitignore
