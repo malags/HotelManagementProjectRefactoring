@@ -1,7 +1,9 @@
+import ch.usi.si.codelounge.jsicko.Contract;
+
 /**
  * Class that represent a single room.
  */
-public class SingleRoom extends Room {
+public class SingleRoom extends Room  implements Contract {
 
     public SingleRoom(Client client1, int roomNumber, boolean isLuxury) {
         super(roomNumber, isLuxury ? RoomType.SingleLuxury : RoomType.SingleNotLuxury, new Client[1]);

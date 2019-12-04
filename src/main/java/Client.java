@@ -1,10 +1,12 @@
+import ch.usi.si.codelounge.jsicko.Contract;
+
 import java.io.Serializable;
 import java.util.Scanner;
 
 /**
  * Class representing a customer.
  */
-public class Client implements Serializable {
+public class Client implements Serializable, Contract {
 
     /**
      * Fields that represent a customer.

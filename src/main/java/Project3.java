@@ -1,9 +1,11 @@
+import ch.usi.si.codelounge.jsicko.Contract;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.Scanner;
 
-public class Project3 {
+public class Project3  implements Contract {
 
     /**
      * Enum that represent possible menu choices.

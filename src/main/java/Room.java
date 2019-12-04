@@ -1,10 +1,12 @@
+import ch.usi.si.codelounge.jsicko.Contract;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Abstract class that represent a room
  */
-public abstract class Room implements Serializable {
+public abstract class Room implements Serializable, Contract {
 
     protected Room(int roomNumber, RoomType roomType, Client[] clients) {
         this.roomNumber = roomNumber;
@@ -15,7 +17,7 @@ public abstract class Room implements Serializable {
     /**
      * Enum that represent a particular room type.
      */
-    public enum RoomType {
+    public enum RoomType  implements Contract {
         DoubleLuxury("Luxury Double Room") {
             @Override
             public boolean isDoubleRoom() {

@@ -1,8 +1,10 @@
+import ch.usi.si.codelounge.jsicko.Contract;
+
 /**
  * Class representing a double room.
  * Extends the abstract room class.
  */
-public class DoubleRoom extends Room {
+public class DoubleRoom extends Room implements Contract {
 
     public DoubleRoom(Client client1, Client client2, int roomNumber, boolean isLuxury) {
         super(roomNumber, isLuxury ? RoomType.DoubleLuxury : RoomType.DoubleNotLuxury, new Client[2]);

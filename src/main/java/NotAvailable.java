@@ -1,7 +1,9 @@
+import ch.usi.si.codelounge.jsicko.Contract;
+
 /**
  * Class that represent not available exeception.
  */
-class NotAvailable extends Exception {
+class NotAvailable extends Exception implements Contract {
 
     protected int id;
 

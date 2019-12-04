@@ -1,3 +1,5 @@
+import ch.usi.si.codelounge.jsicko.Contract;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -6,7 +8,7 @@ import java.util.Scanner;
 /**
  * Class representing a Hotel object.
  */
-public class Hotel {
+public class Hotel implements Contract {
 
     /**
      * Fields that represent the hotel object.

@@ -1,9 +1,11 @@
+import ch.usi.si.codelounge.jsicko.Contract;
+
 import java.io.Serializable;
 
 /**
  * Class representing the food object.
  */
-class Food implements Serializable {
+class Food implements Serializable , Contract {
 
     /**
      * Enum that represents food type whit price.
