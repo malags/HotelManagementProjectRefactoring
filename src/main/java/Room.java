@@ -8,6 +8,18 @@ import java.util.ArrayList;
  */
 public abstract class Room implements Serializable, Contract {
 
+    @Invariant
+    @Pure
+    private boolean room_size_legal(){
+        return clients.length <=2;
+    }
+
+    @Invariant
+    @Pure
+    private boolean room_number_legal(){
+        return roomNumber >= 1 && roomNumber <= 60;
+    }
+
     protected Room(int roomNumber, RoomType roomType, Client[] clients) {
         this.roomNumber = roomNumber;
         this.roomType = roomType;
@@ -60,9 +72,10 @@ public abstract class Room implements Serializable, Contract {
 
     /**
      *
-     * @param roomType
-     * @return
+     * @param roomType: 1 to 4, represent the index of the roomType in the enum + 1
+     * @return :the value associated with the index
      */
+    @Pure
     public static RoomType intToRoomType(int roomType) {
         int index = roomType - 1;
         if (index < 0 || index > RoomType.values().length) {
@@ -84,6 +97,7 @@ public abstract class Room implements Serializable, Contract {
      *
      * @return food list.
      */
+    @Pure
     public ArrayList<Food> getFoods() {
         return foods;
     }
@@ -92,6 +106,7 @@ public abstract class Room implements Serializable, Contract {
      *
      * @return room number.
      */
+    @Pure
     public int getRoomNumber() {
         return roomNumber;
     }
@@ -100,12 +115,14 @@ public abstract class Room implements Serializable, Contract {
      *
      * @return true if a room is empty, otherwise false.
      */
+    @Pure
     abstract boolean isEmpty();
 
     /**
      *
      * @return true ia a room is luxury, otherwise false.
      */
+    @Pure
     boolean isLuxury() {
         return roomType.isLuxuryRoom();
     }
@@ -113,21 +130,24 @@ public abstract class Room implements Serializable, Contract {
     /**
      * Abstract method to set up empty a particular room.
      */
+    @Ensures("isEmpty")
     abstract void setEmpty();
 
     /**
      *
-     * @param doubleRoom
-     * @param luxury
+     * @param doubleRoom : is double
+     * @param luxury : is luxury
      * @return
      * Abstract method to count rooms available.
      */
+    @Pure
     public abstract int countAvailable(boolean doubleRoom, boolean luxury);
 
     /**
      *
      * @return client array.
      */
+    @Pure
     public Client[] getClients() {
         return clients;
     }
@@ -144,12 +164,14 @@ public abstract class Room implements Serializable, Contract {
      * @return
      * Abstract method.
      */
+    @Pure
     public abstract int getCharge();
 
     /**
      *
      * @return true if the room is double, otherwise false.
      */
+    @Pure
     public boolean isDoubleRoom() {
         return roomType.isDoubleRoom();
     }

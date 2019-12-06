@@ -6,6 +6,12 @@ import ch.usi.si.codelounge.jsicko.Contract;
  */
 public class DoubleRoom extends Room implements Contract {
 
+    @Invariant
+    @Pure
+    private boolean room_size_2(){
+        return clients.length == 2;
+    }
+
     public DoubleRoom(Client client1, Client client2, int roomNumber, boolean isLuxury) {
         super(roomNumber, isLuxury ? RoomType.DoubleLuxury : RoomType.DoubleNotLuxury, new Client[2]);
         clients[0] = client1;
@@ -31,8 +37,8 @@ public class DoubleRoom extends Room implements Contract {
     }
 
     /**
-     * @param doubleRoom
-     * @param luxury
+     * @param doubleRoom: the room is double
+     * @param luxury : the room is luxury
      * @return one if the room is free otherwise zero.
      */
     @Override
