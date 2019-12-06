@@ -14,65 +14,48 @@ public abstract class Room implements Serializable, Contract {
         this.clients = clients;
     }
 
-    /**
-     * Enum that represent a particular room type.
-     */
-    public enum RoomType  implements Contract {
-        DoubleLuxury("Luxury Double Room") {
-            @Override
-            public boolean isDoubleRoom() {
-                return true;
-            }
-
-            @Override
-            public boolean isLuxuryRoom() {
-                return true;
-            }
-        }, DoubleNotLuxury("Deluxe Double Room") {
-            @Override
-            public boolean isDoubleRoom() {
-                return true;
-            }
-
-            @Override
-            public boolean isLuxuryRoom() {
-                return false;
-            }
-        }, SingleLuxury("Luxury Single Room") {
-            @Override
-            public boolean isDoubleRoom() {
-                return false;
-            }
-
-            @Override
-            public boolean isLuxuryRoom() {
-                return true;
-            }
-        }, SingleNotLuxury("Deluxe Single Room") {
-            @Override
-            public boolean isDoubleRoom() {
-                return false;
-            }
-
-            @Override
-            public boolean isLuxuryRoom() {
-                return false;
-            }
-        };
-
+    public enum RoomType implements Contract {
+        DoubleLuxury("Luxury Double Room", true, true),
+        DoubleNotLuxury("Deluxe Double Room", true, false),
+        SingleLuxury("Luxury Single Room", false, true),
+        SingleNotLuxury("Deluxe Single Room", false, false);
+    
         private String name;
-
-        RoomType(String name) {
-            this.name = name;
+        private boolean _isLuxuryRoom;
+        private boolean _isDoubleRoom;
+    
+        @Pure
+        boolean roomtype_is_double(boolean returns) {
+            return returns == this.equals(DoubleLuxury) || this.equals(DoubleNotLuxury);
         }
 
+        @Pure
+        boolean roomtype_is_luxury(boolean returns) {
+            return returns == this.equals(SingleLuxury) || this.equals(SingleNotLuxury);
+        }
+    
+        RoomType(String name, boolean isDoubleRoom, Boolean isLuxuryRoom) {
+            this.name = name;
+            this._isDoubleRoom = isDoubleRoom;
+            this._isLuxuryRoom = isLuxuryRoom;
+        }
+    
+        @Pure
         public String getName() {
             return name;
         }
-
-        public abstract boolean isDoubleRoom();
-
-        public abstract boolean isLuxuryRoom();
+    
+        @Pure
+        @Ensures("roomtype_is_double")
+        public boolean isDoubleRoom() {
+            return this._isDoubleRoom;
+        }
+    
+        @Pure
+        @Ensures("roomtype_is_luxury")
+        public boolean isLuxuryRoom() {
+            return this._isLuxuryRoom;
+        }
     }
 
     /**
