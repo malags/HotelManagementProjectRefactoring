@@ -18,7 +18,7 @@ public abstract class Room implements Serializable, Contract {
     @Invariant
     @Pure
     protected boolean room_size_legal(){
-        return clients.length <=2;
+        return clients.length == 1 || clients.length == 2;
     }
 
     @Invariant
@@ -83,6 +83,7 @@ public abstract class Room implements Serializable, Contract {
      * @return :the value associated with the index
      */
     @Pure
+    @Requires("roomType_number_is_valid")
     public static RoomType intToRoomType(int roomType) {
         int index = roomType - 1;
         if (index < 0 || index > RoomType.values().length) {
@@ -90,6 +91,11 @@ public abstract class Room implements Serializable, Contract {
             throw new IllegalArgumentException("The selected room type doesn't exist");
         }
         return RoomType.values()[index];
+    }
+
+    @Pure
+    protected boolean roomType_number_is_valid(int roomType){
+        return roomType >=1 && roomType <= RoomType.values().length;
     }
 
     /**
@@ -159,6 +165,7 @@ public abstract class Room implements Serializable, Contract {
         return clients;
     }
 
+
     /**
      *
      * @param clients
@@ -214,7 +221,7 @@ public abstract class Room implements Serializable, Contract {
      * @param food
      * Method to add food to the Arraylist.
      */
-    @Ensures("increase_food_list")
+    @Ensures({"increase_food_list","added_food_is_new_element","rest_of_list_unchanged"})
     public void addFood(Food food) {
         foods.add(food);
     }
@@ -222,5 +229,19 @@ public abstract class Room implements Serializable, Contract {
     @Pure
     protected boolean increase_food_list(){
         return old(this).foods.size() + 1 == this.foods.size();
+    }
+
+    @Pure
+    protected boolean added_food_is_new_element(Food food){
+        int oldLast = old(this).foods.size() - 1;
+        return old(this).foods.get(oldLast) == this.foods.get(oldLast);
+    }
+
+    @Pure
+    protected boolean rest_of_list_unchanged(){
+        for (int index = 0 ; index < old(this).foods.size() ; ++index)
+            if (old(this).foods.get(index) != this.foods.get(index))
+                return false;
+        return true;
     }
 }
