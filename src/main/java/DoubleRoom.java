@@ -75,7 +75,14 @@ public class DoubleRoom extends Room implements Contract {
      */
     @Override
     @Pure
+    @Ensures("right_cost_double_room")
     public int getCharge() {
         return isLuxury() ? 4000 : 3000;
+    }
+
+    @Pure
+    protected boolean right_cost_double_room(int returns){
+        return  (returns == 4000 && this.isLuxury())    ||
+                (returns == 3000 && !this.isLuxury());
     }
 }

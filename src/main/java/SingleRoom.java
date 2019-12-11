@@ -69,7 +69,14 @@ public class SingleRoom extends Room  implements Contract {
      */
     @Override
     @Pure
+    @Ensures("right_cost_single_room")
     public int getCharge() {
         return isLuxury() ? 2200 : 1200;
+    }
+
+    @Pure
+    protected boolean right_cost_single_room(int returns){
+        return  (returns == 2200 && this.isLuxury())    ||
+                (returns == 1200 && !this.isLuxury());
     }
 }

@@ -1,4 +1,5 @@
 import ch.usi.si.codelounge.jsicko.Contract;
+import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -53,6 +54,15 @@ public abstract class Room implements Serializable, Contract {
             return returns == this.equals(SingleLuxury) || this.equals(DoubleLuxury);
         }
 
+        @Pure
+        boolean valid_roomType_name(String returns){
+            return
+                    returns.equals("Luxury Double Room") ||
+                    returns.equals("Deluxe Double Room") ||
+                    returns.equals("Luxury Single Room") ||
+                    returns.equals("Deluxe Single Room");
+        }
+
         RoomType(String name, boolean isDoubleRoom, Boolean isLuxuryRoom) {
             this.name = name;
             this._isDoubleRoom = isDoubleRoom;
@@ -60,6 +70,7 @@ public abstract class Room implements Serializable, Contract {
         }
 
         @Pure
+        @Ensures("valid_roomType_name")
         public String getName() {
             return name;
         }
@@ -111,6 +122,7 @@ public abstract class Room implements Serializable, Contract {
      * @return food list.
      */
     @Pure
+    @EnsuresNonNull("return")
     public ArrayList<Food> getFoods() {
         return foods;
     }
@@ -171,8 +183,8 @@ public abstract class Room implements Serializable, Contract {
      * @param clients
      * Abstract to book a room.
      */
-    @Requires("clients_size_1_or_2_not_null")
-    @Ensures("set_clients_in_room_success")
+    @Requires({"clients_not_null", "clients_size_1_or_2",  "isEmpty"})
+    @Ensures({"set_clients_in_room_success", "!isEmpty"})
     abstract public void book(Client... clients);
 
 
@@ -184,13 +196,17 @@ public abstract class Room implements Serializable, Contract {
         return success;
     }
 
+    @Pure
+    protected boolean clients_size_1_or_2(Client... clients){
+        return clients.length >= 1 && clients.length <= 2;
+    }
 
     @Pure
-    protected boolean clients_size_1_or_2_not_null(Client... clients){
-        boolean success = clients.length >= 1 && clients.length <= 2;
+    protected boolean clients_not_null(Client... clients){
         for(Client client : clients)
-            success = success && client != null;
-        return success;
+            if(client == null)
+                return false;
+        return true;
     }
 
     /**
