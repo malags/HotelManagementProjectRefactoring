@@ -8,7 +8,13 @@ import java.util.Scanner;
 /**
  * Class representing a Hotel object.
  */
-public class Hotel{
+public class Hotel /*implements Contract*/{
+
+//    @Pure
+//    @Invariant
+//    protected boolean hotel_size_is_60(){
+//        return rooms.length == 60;
+//    }
 
     /**
      * Fields that represent the hotel object.
@@ -45,14 +51,28 @@ public class Hotel{
      * @param roomNumber
      * @return an room from array depending on the value passed as a parameter.
      */
+//    @Pure
+//    @Requires("room_number_is_valid")
+//    @Ensures("room_has_room_number")
     private Room getRoomByNumber(int roomNumber) {
-        return rooms[roomNumber - 1];
+        return this.rooms[roomNumber - 1];
+    }
+
+//    @Pure
+    protected boolean room_number_is_valid(int roomNumber){
+        return roomNumber >= 0 && roomNumber <= 60;
+    }
+
+//    @Pure
+    protected boolean room_has_room_number(Room returns, int roomNumber){
+        return returns.roomNumber == roomNumber;
     }
 
     /**
      * @param roomNumber
      * @return a true value if the room is available, otherwise false.
      */
+//    @Pure
     public boolean roomIsAvailable(int roomNumber) {
         return getRoomByNumber(roomNumber).isEmpty();
     }
@@ -61,6 +81,7 @@ public class Hotel{
      * @param roomNumber
      * @return method to initialize client array.
      */
+//    @Pure
     public Client[] StdInClientsForRoom(int roomNumber) {
 
         Client client1 = Client.createClientFromInput("first ");
@@ -80,6 +101,8 @@ public class Hotel{
      * @param luxury
      * @return list of rooms available.
      */
+//    @Pure
+//    @Ensures("rooms_are_available")
     public List<Room> availableRooms(boolean doubleRoom, boolean luxury) {
         List<Room> availableRooms = new ArrayList<>();
         for (Room room : rooms)
@@ -89,11 +112,20 @@ public class Hotel{
         return availableRooms;
     }
 
+    boolean rooms_are_available(List<Room> returns){
+        for(Room room : returns)
+            if(!room.isEmpty())
+                return false;
+        return true;
+    }
+
 
     /**
      * @param roomNumber
      * @param clients    method to book a room.
      */
+//    @Requires("room_is_empty")
+//    @Ensures("!room_is_empty")
     public void bookRoom(int roomNumber, Client[] clients) {
         Room room = getRoomByNumber(roomNumber);
         if (room.clients.length < clients.length) {
@@ -110,8 +142,9 @@ public class Hotel{
 
     /**
      * @param roomType
-     * @return the value of rooms available.
+     * @return the number of rooms available.
      */
+//    @Pure
     int availability(Room.RoomType roomType) {
         boolean doubleRoom = roomType.isDoubleRoom();
         boolean luxury = roomType.isLuxuryRoom();
@@ -126,6 +159,8 @@ public class Hotel{
      * @param room
      * @return the value of a room bill.
      */
+//    @Pure
+//    @Requires("!room_is_empty")
     protected long calculateBill(Room room) {
         long amount = room.getCharge();
         for (Food food : room.getFoods()) {
@@ -137,13 +172,21 @@ public class Hotel{
     /**
      * @param room Method to print room bill.
      */
+//    @Pure
+//    @Requires("!room_is_empty")
     protected void bill(Room room) {
         Logger.printRoomBill(room, calculateBill(room));
+    }
+
+//    @Pure
+    protected boolean room_is_empty(Room room){
+        return room.isEmpty();
     }
 
     /**
      * @param roomNumber Method to free up a busy room.
      */
+//    @Ensures("room_number_is_empty")
     protected void checkout(int roomNumber) {
         Room room = getRoomByNumber(roomNumber);
         if (room.isEmpty()) {
@@ -163,10 +206,16 @@ public class Hotel{
         }
     }
 
+//    @Pure
+    protected boolean room_number_is_empty(int roomNumber){
+        return this.rooms[roomNumber-1].isEmpty();
+    }
+
     /**
      * @param roomNumber Method to order a food for a room.
      *                   The room number depends on the value passed as a parameter.
      */
+//    @Requires("!room_number_is_empty")
     protected void order(int roomNumber) {
         Room room = getRoomByNumber(roomNumber);
         if (room.isEmpty()) {

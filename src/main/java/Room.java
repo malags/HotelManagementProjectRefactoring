@@ -10,7 +10,7 @@ import static ch.usi.si.codelounge.jsicko.Contract.old;
 public abstract class Room implements Serializable, Contract {
 
     //Jsicko wants this. violates invariant
-    Room() {
+    public Room() {
         this.roomNumber = Integer.MIN_VALUE;
         this.roomType = null;
         this.clients = null;
@@ -122,7 +122,7 @@ public abstract class Room implements Serializable, Contract {
      * @return food list.
      */
     @Pure
-    @EnsuresNonNull("return")
+    @EnsuresNonNull("returns")
     public ArrayList<Food> getFoods() {
         return foods;
     }
@@ -132,8 +132,13 @@ public abstract class Room implements Serializable, Contract {
      * @return room number.
      */
     @Pure
+    @Ensures("returns_correct_number")
     public int getRoomNumber() {
         return roomNumber;
+    }
+
+    boolean returns_correct_number(int returns){
+        return returns == this.roomNumber;
     }
 
     /**
@@ -166,13 +171,21 @@ public abstract class Room implements Serializable, Contract {
      * Abstract method to count rooms available.
      */
     @Pure
+    @Ensures("number_of_rooms_available_is_possible")
     public abstract int countAvailable(boolean doubleRoom, boolean luxury);
+
+    boolean number_of_rooms_available_is_possible(int returns, boolean doubleRoom, boolean luxury){
+        if(luxury)
+            return returns >= 0 && returns <= 10;
+        return returns >= 0 && returns <= 20;
+    }
 
     /**
      *
      * @return client array.
      */
     @Pure
+    @EnsuresNonNull("returns")
     public Client[] getClients() {
         return clients;
     }

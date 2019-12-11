@@ -41,8 +41,15 @@ class Food implements Serializable , Contract {
          * @return the price of the corresponding food.
          */
         @Pure
+        @Ensures("price_per_item_is_correct")
         public int getPrice() {
             return price;
+        }
+
+        @Pure
+        boolean price_per_item_is_correct(int returns){
+            return returns == this.price &&
+                    (returns == 50 || returns == 60 || returns == 70 || returns == 30);
         }
     }
 
@@ -61,6 +68,11 @@ class Food implements Serializable , Contract {
     Food(FoodType item, int quantity) {
         this.item = item;
         this.quantity = quantity;
+    }
+
+    Food(){  //violates invariant for jsicko
+        this.item = FoodType.Sandwich;
+        this.quantity = Integer.MIN_VALUE;
     }
 
     /**
@@ -85,16 +97,28 @@ class Food implements Serializable , Contract {
      * @return the quantity of food.
      */
     @Pure
+    @Ensures("positive_integer_returned")
     public int getQuantity() {
         return quantity;
+    }
+
+    @Pure
+    boolean positive_integer_returned(int returns){
+        return returns > 0;
     }
 
     /**
      * @return the price of food.
      */
     @Pure
+    @Ensures("positive_return")
     public float getPrice() {
         return quantity * item.price;
+    }
+
+    @Pure
+    boolean positive_return(float returns){
+        return returns > 0;
     }
 
     /**
@@ -103,7 +127,7 @@ class Food implements Serializable , Contract {
      */
     @Pure
     @Requires("foodType_index_is_valid")
-    @EnsuresNonNull("returns")
+    @Ensures("returns")
     public static FoodType getFoodType(int index) {
         return FoodType.values()[index - 1];
     }

@@ -1,4 +1,5 @@
 import ch.usi.si.codelounge.jsicko.Contract;
+import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 
 import java.io.Serializable;
 import java.util.Scanner;
@@ -8,6 +9,12 @@ import java.util.Scanner;
  */
 public class Client implements Serializable, Contract {
 
+    @Pure
+    @Invariant
+    boolean client_has_values(){
+        return this.name != null && this.contact != null && this.gender != null;
+    }
+
     /**
      * Fields that represent a customer.
      * Represented by name, contact and gender.
@@ -16,7 +23,7 @@ public class Client implements Serializable, Contract {
     final private String contact;
     final private String gender;
 
-    Client(){
+    public Client(){
         this.name = null;
         this.contact = null;
         this.gender = null;
@@ -33,6 +40,7 @@ public class Client implements Serializable, Contract {
      * @return the value of the customer's name.
      */
     @Pure
+    @EnsuresNonNull("returns")
     public String getName() {
         return name;
     }
@@ -41,6 +49,7 @@ public class Client implements Serializable, Contract {
      * @return the value of the customer's contact.
      */
     @Pure
+    @EnsuresNonNull("returns")
     public String getContact() {
         return contact;
     }
@@ -49,6 +58,7 @@ public class Client implements Serializable, Contract {
      * @return the value of the customer's gender.
      */
     @Pure
+    @EnsuresNonNull("returns")
     public String getGender() {
         return gender;
     }
@@ -62,6 +72,7 @@ public class Client implements Serializable, Contract {
      * Return a new customer type object.
      */
     @Pure //not from IO point of view, but makes no changes to parameters
+    @EnsuresNonNull("returns")
     public static Client createClientFromInput(final String customerPosition) {
         Scanner scanner = new Scanner(System.in);
         String name, contactInfo, gender;
