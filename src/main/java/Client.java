@@ -16,6 +16,13 @@ public class Client implements Serializable, Contract {
     final private String contact;
     final private String gender;
 
+    Client(){
+        this.name = null;
+        this.contact = null;
+        this.gender = null;
+    }
+
+
     public Client(String name, String contact, String gender) {
         this.name = name;
         this.contact = contact;
@@ -25,6 +32,7 @@ public class Client implements Serializable, Contract {
     /**
      * @return the value of the customer's name.
      */
+    @Pure
     public String getName() {
         return name;
     }
@@ -32,6 +40,7 @@ public class Client implements Serializable, Contract {
     /**
      * @return the value of the customer's contact.
      */
+    @Pure
     public String getContact() {
         return contact;
     }
@@ -39,6 +48,7 @@ public class Client implements Serializable, Contract {
     /**
      * @return the value of the customer's gender.
      */
+    @Pure
     public String getGender() {
         return gender;
     }
@@ -51,7 +61,8 @@ public class Client implements Serializable, Contract {
      * Static method that allows defining a new customer.
      * Return a new customer type object.
      */
-    public static Client createClientFromInput(String customerPosition) {
+    @Pure //not from IO point of view, but makes no changes to parameters
+    public static Client createClientFromInput(final String customerPosition) {
         Scanner scanner = new Scanner(System.in);
         String name, contactInfo, gender;
         System.out.println("\nEnter " + customerPosition + "customer name:");

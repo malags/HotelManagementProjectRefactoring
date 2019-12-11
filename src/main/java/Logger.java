@@ -3,7 +3,7 @@ import ch.usi.si.codelounge.jsicko.Contract;
 /**
  * Interface used to print different types of information on screen.
  */
-public interface Logger extends Contract {
+public interface Logger{
 
     /**
      * @param room

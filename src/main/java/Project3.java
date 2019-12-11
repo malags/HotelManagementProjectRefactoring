@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.Scanner;
 
-public class Project3  implements Contract {
+public class Project3{
 
     /**
      * Enum that represent possible menu choices.

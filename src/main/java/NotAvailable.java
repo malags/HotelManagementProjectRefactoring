@@ -15,7 +15,10 @@ class NotAvailable extends Exception implements Contract {
      * @return
      */
     @Override
+    @Pure
     public String toString() {
         return "Room " + id + " not Available!";
     }
+
+
 }

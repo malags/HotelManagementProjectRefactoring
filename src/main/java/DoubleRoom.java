@@ -8,9 +8,16 @@ public class DoubleRoom extends Room implements Contract {
 
     @Invariant
     @Pure
-    private boolean room_size_2(){
+    protected boolean room_size_2(){
         return clients.length == 2;
     }
+
+
+    //Jsicko wants this. violates invariant
+    DoubleRoom(){
+        super();
+    }
+
 
     public DoubleRoom(Client client1, Client client2, int roomNumber, boolean isLuxury) {
         super(roomNumber, isLuxury ? RoomType.DoubleLuxury : RoomType.DoubleNotLuxury, new Client[2]);
@@ -22,6 +29,7 @@ public class DoubleRoom extends Room implements Contract {
      * @return whether a room is occupied or not.
      */
     @Override
+    @Pure
     boolean isEmpty() {
         return clients[0] == null && clients[1] == null;
     }
@@ -42,6 +50,7 @@ public class DoubleRoom extends Room implements Contract {
      * @return one if the room is free otherwise zero.
      */
     @Override
+    @Pure
     public int countAvailable(boolean doubleRoom, boolean luxury) {
         return doubleRoom && (luxury == isLuxury()) && isEmpty() ? 1 : 0;
     }
@@ -65,6 +74,7 @@ public class DoubleRoom extends Room implements Contract {
      * Return 4000 if the room is luxury, otherwise 3000.
      */
     @Override
+    @Pure
     public int getCharge() {
         return isLuxury() ? 4000 : 3000;
     }

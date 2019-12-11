@@ -2,21 +2,28 @@ import ch.usi.si.codelounge.jsicko.Contract;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
+import static ch.usi.si.codelounge.jsicko.Contract.old;
 /**
  * Abstract class that represent a room
  */
 public abstract class Room implements Serializable, Contract {
 
+    //Jsicko wants this. violates invariant
+    Room() {
+        this.roomNumber = Integer.MIN_VALUE;
+        this.roomType = null;
+        this.clients = null;
+    }
+
     @Invariant
     @Pure
-    private boolean room_size_legal(){
+    protected boolean room_size_legal(){
         return clients.length <=2;
     }
 
     @Invariant
     @Pure
-    private boolean room_number_legal(){
+    protected boolean room_number_legal(){
         return roomNumber >= 1 && roomNumber <= 60;
     }
 
@@ -31,11 +38,11 @@ public abstract class Room implements Serializable, Contract {
         DoubleNotLuxury("Deluxe Double Room", true, false),
         SingleLuxury("Luxury Single Room", false, true),
         SingleNotLuxury("Deluxe Single Room", false, false);
-    
+
         private String name;
         private boolean _isLuxuryRoom;
         private boolean _isDoubleRoom;
-    
+
         @Pure
         boolean roomtype_is_double(boolean returns) {
             return returns == this.equals(DoubleLuxury) || this.equals(DoubleNotLuxury);
@@ -43,26 +50,26 @@ public abstract class Room implements Serializable, Contract {
 
         @Pure
         boolean roomtype_is_luxury(boolean returns) {
-            return returns == this.equals(SingleLuxury) || this.equals(SingleNotLuxury);
+            return returns == this.equals(SingleLuxury) || this.equals(DoubleLuxury);
         }
-    
+
         RoomType(String name, boolean isDoubleRoom, Boolean isLuxuryRoom) {
             this.name = name;
             this._isDoubleRoom = isDoubleRoom;
             this._isLuxuryRoom = isLuxuryRoom;
         }
-    
+
         @Pure
         public String getName() {
             return name;
         }
-    
+
         @Pure
         @Ensures("roomtype_is_double")
         public boolean isDoubleRoom() {
             return this._isDoubleRoom;
         }
-    
+
         @Pure
         @Ensures("roomtype_is_luxury")
         public boolean isLuxuryRoom() {
@@ -157,7 +164,27 @@ public abstract class Room implements Serializable, Contract {
      * @param clients
      * Abstract to book a room.
      */
+    @Requires("clients_size_1_or_2_not_null")
+    @Ensures("set_clients_in_room_success")
     abstract public void book(Client... clients);
+
+
+    @Pure
+    protected boolean set_clients_in_room_success(Client... clients){
+        boolean success = this.clients[0] == clients[0];
+        if(clients.length == 2)
+            success = success && this.clients[1] == clients[1];
+        return success;
+    }
+
+
+    @Pure
+    protected boolean clients_size_1_or_2_not_null(Client... clients){
+        boolean success = clients.length >= 1 && clients.length <= 2;
+        for(Client client : clients)
+            success = success && client != null;
+        return success;
+    }
 
     /**
      *
@@ -165,7 +192,13 @@ public abstract class Room implements Serializable, Contract {
      * Abstract method.
      */
     @Pure
+    @Ensures("nonNegative")
     public abstract int getCharge();
+
+    @Pure
+    protected boolean nonNegative(int returns){
+        return returns >= 0;
+    }
 
     /**
      *
@@ -181,7 +214,13 @@ public abstract class Room implements Serializable, Contract {
      * @param food
      * Method to add food to the Arraylist.
      */
+    @Ensures("increase_food_list")
     public void addFood(Food food) {
         foods.add(food);
+    }
+
+    @Pure
+    protected boolean increase_food_list(){
+        return old(this).foods.size() + 1 == this.foods.size();
     }
 }

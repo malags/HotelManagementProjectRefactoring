@@ -8,7 +8,7 @@ import java.util.Scanner;
 /**
  * Class representing a Hotel object.
  */
-public class Hotel implements Contract {
+public class Hotel{
 
     /**
      * Fields that represent the hotel object.
