@@ -67,8 +67,18 @@ class Food implements Serializable , Contract {
      * @return the type of food.
      */
     @Pure
+    @Ensures("ItemName_is_valid")
     public String getItemName() {
         return item.name();
+    }
+
+    @Pure
+    protected boolean ItemName_is_valid(String returns){
+        return
+                returns.equals("Sandwich")  ||
+                returns.equals("Pasta")     ||
+                returns.equals("Noodles")   ||
+                returns.equals("Coke");
     }
 
     /**
