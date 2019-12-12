@@ -1,5 +1,4 @@
 import ch.usi.si.codelounge.jsicko.Contract;
-import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -122,9 +121,15 @@ public abstract class Room implements Serializable, Contract {
      * @return food list.
      */
     @Pure
-    @EnsuresNonNull("returns")
+    @Ensures("is_not_null")
     public ArrayList<Food> getFoods() {
         return foods;
+    }
+
+
+    @Pure
+    protected boolean is_not_null(Object returns){
+        return !(returns == null);
     }
 
     /**
@@ -185,7 +190,7 @@ public abstract class Room implements Serializable, Contract {
      * @return client array.
      */
     @Pure
-    @EnsuresNonNull("returns")
+    @Ensures("is_not_null")
     public Client[] getClients() {
         return clients;
     }

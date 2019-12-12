@@ -1,5 +1,4 @@
 import ch.usi.si.codelounge.jsicko.Contract;
-import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 
 import java.io.Serializable;
 import java.util.Scanner;
@@ -9,9 +8,15 @@ import java.util.Scanner;
  */
 public class Client implements Serializable, Contract {
 
+
+    @Pure
+    protected static boolean is_not_null(Object returns) {
+        return !(returns == null);
+    }
+
     @Pure
     @Invariant
-    boolean client_has_values(){
+    boolean client_has_values() {
         return this.name != null && this.contact != null && this.gender != null;
     }
 
@@ -23,7 +28,7 @@ public class Client implements Serializable, Contract {
     final private String contact;
     final private String gender;
 
-    public Client(){
+    public Client() {
         this.name = null;
         this.contact = null;
         this.gender = null;
@@ -40,7 +45,7 @@ public class Client implements Serializable, Contract {
      * @return the value of the customer's name.
      */
     @Pure
-    @EnsuresNonNull("returns")
+    @Ensures("is_not_null")
     public String getName() {
         return name;
     }
@@ -49,7 +54,7 @@ public class Client implements Serializable, Contract {
      * @return the value of the customer's contact.
      */
     @Pure
-    @EnsuresNonNull("returns")
+    @Ensures("is_not_null")
     public String getContact() {
         return contact;
     }
@@ -58,21 +63,18 @@ public class Client implements Serializable, Contract {
      * @return the value of the customer's gender.
      */
     @Pure
-    @EnsuresNonNull("returns")
+    @Ensures("is_not_null")
     public String getGender() {
         return gender;
     }
 
     /**
-     *
      * @param customerPosition
-     * @return
-     *
-     * Static method that allows defining a new customer.
+     * @return Static method that allows defining a new customer.
      * Return a new customer type object.
      */
     @Pure //not from IO point of view, but makes no changes to parameters
-    @EnsuresNonNull("returns")
+    @Ensures("is_not_null")
     public static Client createClientFromInput(final String customerPosition) {
         Scanner scanner = new Scanner(System.in);
         String name, contactInfo, gender;

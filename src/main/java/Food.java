@@ -1,5 +1,4 @@
 import ch.usi.si.codelounge.jsicko.Contract;
-import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 
 import java.io.Serializable;
 

@@ -58,7 +58,6 @@ public class SingleRoom extends Room  implements Contract {
      */
     @Override
     public void book(Client... clients) {
-        assert (clients.length == 1);
         this.clients[0] = clients[0];
     }
 
