@@ -64,7 +64,7 @@ public class Hotel implements Contract{
     }
 
     @Pure
-    protected boolean room_has_room_number(Room returns, int roomNumber){
+    protected boolean room_has_room_number(int roomNumber, Room returns){
         return returns.roomNumber == roomNumber;
     }
 
@@ -142,7 +142,7 @@ public class Hotel implements Contract{
 
     @Pure
     boolean room_at_nr_is_empty(int roomNumber){
-        return  getRoomByNumber(roomNumber).isEmpty();
+        return getRoomByNumber(roomNumber).isEmpty();
     }
 
     /**
