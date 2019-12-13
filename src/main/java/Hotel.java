@@ -124,8 +124,8 @@ public class Hotel implements Contract{
      * @param roomNumber
      * @param clients    method to book a room.
      */
-//    @Requires("room_is_empty")
-//    @Ensures("!room_is_empty")
+    @Requires("room_at_nr_is_empty")
+    @Ensures("!room_at_nr_is_empty")
     public void bookRoom(int roomNumber, Client[] clients) {
         Room room = getRoomByNumber(roomNumber);
         if (room.clients.length < clients.length) {
@@ -138,6 +138,11 @@ public class Hotel implements Contract{
         }
         System.out.println("Room Booked");
         room.book(clients);
+    }
+
+    @Pure
+    boolean room_at_nr_is_empty(int roomNumber){
+        return  getRoomByNumber(roomNumber).isEmpty();
     }
 
     /**
@@ -186,7 +191,7 @@ public class Hotel implements Contract{
     /**
      * @param roomNumber Method to free up a busy room.
      */
-//    @Ensures("room_number_is_empty")
+    @Ensures("room_number_is_empty")
     protected void checkout(int roomNumber) {
         Room room = getRoomByNumber(roomNumber);
         if (room.isEmpty()) {
@@ -215,7 +220,7 @@ public class Hotel implements Contract{
      * @param roomNumber Method to order a food for a room.
      *                   The room number depends on the value passed as a parameter.
      */
-//    @Requires("!room_number_is_empty")
+    @Requires("!room_number_is_empty")
     protected void order(int roomNumber) {
         Room room = getRoomByNumber(roomNumber);
         if (room.isEmpty()) {
